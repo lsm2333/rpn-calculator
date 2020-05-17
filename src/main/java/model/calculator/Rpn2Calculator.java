@@ -36,7 +36,7 @@ public class Rpn2Calculator implements Calculator {
         for (String token : inputSplit) {
             inputQueue.add(token);
         }
-        recursive(inputQueue, resultStack);
+        recursive(inputQueue, resultStack, 0);
         return resultStack;
     }
 
@@ -53,7 +53,7 @@ public class Rpn2Calculator implements Calculator {
      * @return
      * @author shengming.lin
      */
-    private ExtendStack<Double> recursive(Queue<String> input, ExtendStack<Double> result) throws CalculatorException {
+    private ExtendStack<Double> recursive(Queue<String> input, ExtendStack<Double> result, int index) throws CalculatorException {
         if (input == null || input.isEmpty()) {
             return result;
         }
@@ -62,7 +62,7 @@ public class Rpn2Calculator implements Calculator {
         //if firstToken is number
         if (tryParseDouble != null) {
             result.add(tryParseDouble);
-            return recursive(input, result);
+            return recursive(input, result, ++index);
         }
         RpnOperator operator = RpnOperator.getEnum(firstToken);
         if (operator == null) {
@@ -70,7 +70,7 @@ public class Rpn2Calculator implements Calculator {
         }
         int operandsNumber = operator.getOperandsNumber();
         if (result.size() < operandsNumber) {
-            throw new CalculatorException(String.format("operator %s (position: %d): insucient parameters", firstToken, 15));
+            throw new CalculatorException(String.format("operator %s (position: %d): insucient parameters", firstToken, ++index));
         }
         switch (operandsNumber) {
             //hard code here
@@ -84,7 +84,7 @@ public class Rpn2Calculator implements Calculator {
                 if (RpnOperator.UNDO.equals(operator)) {
                     undo(result);
                 }
-                return recursive(input, result);
+                return recursive(input, result, ++index);
             }
             case 1: {
                 Double pop = result.pop();
@@ -92,7 +92,7 @@ public class Rpn2Calculator implements Calculator {
                 result.add(calculateResult);
                 undoStack.add(String.valueOf(pop));
                 undoStack.add(firstToken);
-                return recursive(input, result);
+                return recursive(input, result, ++index);
             }
             case 2: {
                 Double pop1 = result.pop();
@@ -102,7 +102,7 @@ public class Rpn2Calculator implements Calculator {
                 undoStack.add(String.valueOf(pop2));
                 undoStack.add(String.valueOf(pop1));
                 undoStack.add(firstToken);
-                return recursive(input, result);
+                return recursive(input, result, ++index);
             }
             default: {
                 throw new CalculatorException("wrong operandsNumber for operator: " + firstToken);
