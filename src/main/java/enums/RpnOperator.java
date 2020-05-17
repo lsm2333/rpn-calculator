@@ -15,28 +15,28 @@ import static utils.MathUtil.reFactorial;
 @AllArgsConstructor
 public enum RpnOperator {
 
-    ADDITION("+", "-", 2) {
+    ADDITION("+", 2) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) {
             return secondOperand + firstOperand;
         }
     },
 
-    SUBTRACTION("-", "+", 2) {
+    SUBTRACTION("-", 2) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) {
             return secondOperand - firstOperand;
         }
     },
 
-    MULTIPLICATION("*", "/", 2) {
+    MULTIPLICATION("*", 2) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) {
             return secondOperand * firstOperand;
         }
     },
 
-    DIVISION("/", "*", 2) {
+    DIVISION("/", 2) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException {
             if (firstOperand == 0)
@@ -45,77 +45,77 @@ public enum RpnOperator {
         }
     },
 
-    SQUAREROOT("sqrt", "pow", 1) {
+    SQUAREROOT("sqrt", 1) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) {
             return sqrt(firstOperand);
         }
     },
 
-    POWER("pow", "sqrt", 1) {
+    POWER("pow", 1) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) {
             return pow(firstOperand, 2.0);
         }
     },
 
-    UNDO("undo", null, 0) {
+    UNDO("undo", 0) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException {
             throw new CalculatorException("Invalid operation");
         }
     },
 
-    CLEAR("clear", null, 0) {
+    CLEAR("clear", 0) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException {
             throw new CalculatorException("Invalid operation");
         }
     },
 
-    EXIT("exit", null, 0) {
+    EXIT("exit", 0) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException {
             throw new CalculatorException("Invalid operation");
         }
     },
 
-    FACTORIAL("n!", "rv-n!", 1) {
+    FACTORIAL("n!", 1) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) {
             return factorial(firstOperand);
         }
     },
 
-    REVERSE_FACTORIAL("rv-n!", "n!", 1) {
+    REVERSE_FACTORIAL("rv-n!", 1) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) {
             return reFactorial(firstOperand);
         }
     },
 
-    COS("cos", "acos", 1) {
+    COS("cos", 1) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) {
             return cos(firstOperand);
         }
     },
 
-    ACOS("acos", "cos", 1) {
+    ACOS("acos", 1) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) {
             return acos(firstOperand);
         }
     },
 
-    ATAN("atan", "tan", 1) {
+    ATAN("atan", 1) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) {
             return atan(firstOperand);
         }
     },
 
-    TAN("tan", "atan", 1) {
+    TAN("tan", 1) {
         @Override
         public Double calculate(Double firstOperand, Double secondOperand) {
             return tan(firstOperand);
@@ -123,7 +123,6 @@ public enum RpnOperator {
     };
 
     private String symbol;
-    private String opposite;
     private int operandsNumber;
     // using map for a constant lookup cost
     private static final Map<String, RpnOperator> lookup = new HashMap<>();
