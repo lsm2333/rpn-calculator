@@ -33,4 +33,14 @@ public interface Calculator {
     default void selfIntro() {
         System.out.println(String.format("Calculator [%s] is chosen", this.getClass().getSimpleName()));
     }
+
+    /**
+     * <B>Description:</B> get result stack <br>
+     * <B>Create on:</B> 2020-05-17 17:17 <br>
+     *
+     * @param
+     * @return
+     * @author shengming.lin
+     */
+    ExtendStack<Double> getResultStack();
 }

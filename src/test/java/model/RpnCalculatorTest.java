@@ -23,7 +23,7 @@ public class RpnCalculatorTest {
 
     @After
     public void clear() {
-        rpnCalculator.getValuesStack().clear();
+        rpnCalculator.getResultStack().clear();
     }
 
     @Test
@@ -163,7 +163,7 @@ public class RpnCalculatorTest {
         try {
             rpnCalculator.calculate("1 2 3 * 5 + * * 6 5");
         } catch (CalculatorException e) {
-            ExtendStack<Double> result = rpnCalculator.getValuesStack();
+            ExtendStack<Double> result = rpnCalculator.getResultStack();
             ExtendStack<Double> expected = new ExtendStack<>();
             expected.add(11D);
             assertEquals("expectation not matched", expected, result);

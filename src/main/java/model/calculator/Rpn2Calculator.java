@@ -12,7 +12,6 @@ import java.util.Queue;
 
 public class Rpn2Calculator implements Calculator {
 
-    @Getter
     private ExtendStack<Double> resultStack = new ExtendStack<>();
     private Queue<String> inputQueue = new LinkedList<>();
     private ExtendStack<String> undoStack = new ExtendStack<>();
@@ -32,6 +31,11 @@ public class Rpn2Calculator implements Calculator {
             inputQueue.add(token);
         }
         recursive(inputQueue, resultStack);
+        return resultStack;
+    }
+
+    @Override
+    public ExtendStack<Double> getResultStack() {
         return resultStack;
     }
 

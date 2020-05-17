@@ -42,6 +42,10 @@ public class Main {
                 stack.printStack();
             } catch (CalculatorException e) {
                 System.out.println(e.getMessage());
+                ExtendStack<Double> resultStack = calculator.getResultStack();
+                if (resultStack != null) {
+                    resultStack.printStack();
+                }
             }
         }
     }

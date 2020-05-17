@@ -7,14 +7,14 @@ import model.others.Instruction;
 
 public class RpnCalculator implements Calculator {
 
-    private ExtendStack<Double> valuesStack = new ExtendStack<>();
+    private ExtendStack<Double> resultStack = new ExtendStack<>();
     private ExtendStack<Instruction> instructionsStack = new ExtendStack<Instruction>();
     private int currentTokenIndex = 0;
 
     @Override
     public ExtendStack<Double> calculate(String input) throws CalculatorException {
         eval(input, false);
-        return this.getValuesStack();
+        return this.getResultStack();
     }
 
     public RpnCalculator() {
@@ -42,7 +42,7 @@ public class RpnCalculator implements Calculator {
             processOperator(token, isUndoOperation);
         } else {
             // it's a digit
-            valuesStack.push(Double.parseDouble(token));
+            resultStack.push(Double.parseDouble(token));
             if (!isUndoOperation) {
                 instructionsStack.push(null);
             }
@@ -59,7 +59,7 @@ public class RpnCalculator implements Calculator {
     private void processOperator(String operatorString, boolean isUndoOperation) throws CalculatorException {
 
         // check if there is an empty stack
-        if (valuesStack == null || valuesStack.isEmpty()) {
+        if (resultStack == null || resultStack.isEmpty()) {
             throw new CalculatorException("empty stack");
         }
 
@@ -82,18 +82,18 @@ public class RpnCalculator implements Calculator {
         }
 
         // Checking that there are enough operand for the operation
-        if (rpnOperator.getOperandsNumber() > valuesStack.size()) {
+        if (rpnOperator.getOperandsNumber() > resultStack.size()) {
             throwInvalidOperand(operatorString);
         }
 
         // getting operands
-        Double firstOperand = valuesStack.pop();
-        Double secondOperand = (rpnOperator.getOperandsNumber() > 1) ? valuesStack.pop() : null;
+        Double firstOperand = resultStack.pop();
+        Double secondOperand = (rpnOperator.getOperandsNumber() > 1) ? resultStack.pop() : null;
         // calculate
         Double result = rpnOperator.calculate(firstOperand, secondOperand);
 
         if (result != null) {
-            valuesStack.push(result);
+            resultStack.push(result);
             if (!isUndoOperation) {
                 instructionsStack.push(new Instruction(RpnOperator.getEnum(operatorString), firstOperand));
             }
@@ -108,14 +108,14 @@ public class RpnCalculator implements Calculator {
 
         Instruction lastInstruction = instructionsStack.pop();
         if (lastInstruction == null) {
-            valuesStack.pop();
+            resultStack.pop();
         } else {
             eval(lastInstruction.getReverseInstruction(), true);
         }
     }
 
     private void clearStacks() {
-        valuesStack.clear();
+        resultStack.clear();
         instructionsStack.clear();
     }
 
@@ -125,14 +125,15 @@ public class RpnCalculator implements Calculator {
     }
 
     /**
-     * Returns the values valuesStack
+     * Returns the values resultStack
      */
-    public ExtendStack<Double> getValuesStack() {
-        return valuesStack;
+    @Override
+    public ExtendStack<Double> getResultStack() {
+        return resultStack;
     }
 
     /**
-     * Evals a RPN expression and pushes the result into the valuesStack
+     * Evals a RPN expression and pushes the result into the resultStack
      *
      * @param input           valid RPN expression
      * @param isUndoOperation indicates if the operation is an undo operation.
