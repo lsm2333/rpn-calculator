@@ -10,6 +10,12 @@ import java.util.EmptyStackException;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * <B>Description:</B> use a recursive method to implement rpn calculator <br>
+ * <B>Create on:</B> 2020-05-17 17:25 <br>
+ *
+ * @author shengming.lin
+ */
 public class Rpn2Calculator implements Calculator {
 
     private ExtendStack<Double> resultStack = new ExtendStack<>();
@@ -39,6 +45,14 @@ public class Rpn2Calculator implements Calculator {
         return resultStack;
     }
 
+    /**
+     * <B>Description:</B> recursive calculate, the recursive stops when input is empty <br>
+     * <B>Create on:</B> 2020-05-17 17:24 <br>
+     *
+     * @param
+     * @return
+     * @author shengming.lin
+     */
     private ExtendStack<Double> recursive(Queue<String> input, ExtendStack<Double> result) throws CalculatorException {
         if (input == null || input.isEmpty()) {
             return result;
