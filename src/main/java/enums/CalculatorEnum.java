@@ -2,6 +2,7 @@ package enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import model.calculator.Rpn2Calculator;
 import model.calculator.RpnCalculator;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.Map;
 @AllArgsConstructor
 public enum CalculatorEnum {
     RPN("rpn", RpnCalculator.class.getName()),
-    RPN2("rpn2", RpnCalculator.class.getName());
+    RPN2("rpn2", Rpn2Calculator.class.getName());
 
     String name;
     String className;

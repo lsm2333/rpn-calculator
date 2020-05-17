@@ -7,7 +7,7 @@ import model.others.Instruction;
 
 public class RpnCalculator implements Calculator {
 
-    private ExtendStack<Double> valuesStack = new ExtendStack<Double>();
+    private ExtendStack<Double> valuesStack = new ExtendStack<>();
     private ExtendStack<Instruction> instructionsStack = new ExtendStack<Instruction>();
     private int currentTokenIndex = 0;
 
