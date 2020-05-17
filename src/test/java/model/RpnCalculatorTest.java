@@ -171,4 +171,46 @@ public class RpnCalculatorTest {
             throw e;
         }
     }
+
+    @Test
+    public void testCaseFactorial() throws CalculatorException {
+        ExtendStack<Double> result = rpnCalculator.calculate("4 n!");
+
+        ExtendStack<Double> expected = new ExtendStack<>();
+        expected.add(24D);
+        assertEquals("expectation not matched", expected, result);
+
+        ExtendStack<Double> result2 = rpnCalculator.calculate("undo");
+        expected.clear();
+        expected.add(4D);
+        assertEquals("expectation2 not matched", expected, result2);
+    }
+
+    @Test
+    public void testCaseCos() throws CalculatorException {
+        ExtendStack<Double> result = rpnCalculator.calculate("1 cos");
+
+        ExtendStack<Double> expected = new ExtendStack<>();
+        expected.add(0.5403023058681398D);
+        assertEquals("expectation not matched", expected, result);
+
+        ExtendStack<Double> result2 = rpnCalculator.calculate("undo");
+        expected.clear();
+        expected.add(1D);
+        assertEquals("expectation2 not matched", expected, result2);
+    }
+
+    @Test
+    public void testCaseAtan() throws CalculatorException {
+        ExtendStack<Double> result = rpnCalculator.calculate("1 atan");
+
+        ExtendStack<Double> expected = new ExtendStack<>();
+        expected.add(0.7853981633974483D);
+        assertEquals("expectation not matched", expected, result);
+
+        ExtendStack<Double> result2 = rpnCalculator.calculate("undo");
+        expected.clear();
+        expected.add(1D);
+        assertEquals("expectation2 not matched", expected, result2);
+    }
 }
