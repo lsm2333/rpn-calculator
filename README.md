@@ -1,15 +1,15 @@
 # What's this
 This project implements a basic calculator including RPN-calculator using java. And users can use it via command line.
 
-####Stage 1: A command-line based RPN
+#### Stage 1: A command-line based RPN
 - Basic math operators (+,-,*,/,sqrt)
 - Undo and clear functionality
  
-####Stage 2: Enhanced functionalities
+#### Stage 2: Enhanced functionalities
 - More math operators, such as n!, COS, ATAN, etc
 - Other operators such as redo, swap, etc. (TBD)
 
-####Stage 3: Online & UI (TBD)
+#### Stage 3: Online & UI (TBD)
 - Bring it online
 - Customize the colour of each number in the stack depends on it position.
 
