@@ -23,7 +23,7 @@ public class RpnCalculatorTest {
 
     @After
     public void clear() {
-        rpnCalculator.getResultStack().clear();
+        rpnCalculator.clearStack();
     }
 
     @Test
@@ -167,6 +167,7 @@ public class RpnCalculatorTest {
             ExtendStack<Double> expected = new ExtendStack<>();
             expected.add(11D);
             assertEquals("expectation not matched", expected, result);
+            assertEquals("exception message is not matched", "operator * (position: 8): insucient parameters", e.getMessage());
             throw e;
         }
     }
