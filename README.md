@@ -31,3 +31,8 @@ Just share some thoughts during development to help developers go further beyond
     2. it also has a default method ```selfIntro()``` which you can use to introduce when specific calculator is chosen by user
 2. add one enum in ```enums.CalculatorEnum``` for the calculator you've just implemented, therefore the user will be able to see it on console when program starts
 3. ```factory.CalculatorFactory``` is designed to return an calculator instance by name so no need to worry about the instantiation
+
+# Reference
+The following codes bring more idea to me and ```enums.RpnOperator``` basically extends from gvnn's project .
+- [https://github.com/gvnn/rpn-calculator](https://github.com/gvnn/rpn-calculator)
+- [https://gist.github.com/vise890/5902461](https://gist.github.com/vise890/5902461)
