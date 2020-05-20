@@ -19,7 +19,8 @@ This project implements a basic calculator including RPN-calculator using java. 
 3. try ```run_calculator.sh```
 
 # For developers
-Just share some thoughts during development to help developers go further beyond this project.
+Just share some thoughts during development to help developers go further beyond this project. In order to make project have better maintainability and extensibility, I take some of the design principle into consideration.
+For example, the SOLID principle(https://en.wikipedia.org/wiki/SOLID). I abstract an interface ```model.calculator.Calculator``` for stack based calculators. For more details, please check below lists.
 
 ## Add more operators
 1. just add one enum in ```enums.RpnOperator``` with implementation.
