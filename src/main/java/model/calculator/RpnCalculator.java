@@ -59,7 +59,7 @@ public class RpnCalculator implements Calculator {
         }
         String firstToken = input.poll();
         Double tryParseDouble = MathUtil.tryParseDouble(firstToken);
-        //if firstToken is number
+        //if firstToken is number, just add to result stack
         if (tryParseDouble != null) {
             result.add(tryParseDouble);
             return recursive(input, result, ++index);
@@ -113,7 +113,7 @@ public class RpnCalculator implements Calculator {
     /**
      * <B>Description:</B> undo the last command <br>
      * <B>Create on:</B> 2020-05-17 16:12 <br>
-     *
+     *  every undo will pop the last token from undo-stack, and try to roll back numbers from undo-stack
      * @param
      * @return
      * @author shengming.lin
