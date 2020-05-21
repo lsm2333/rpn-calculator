@@ -1,5 +1,7 @@
 package utils;
 
+import java.math.BigDecimal;
+
 /**
  * <B>Description:</B> implements some math functionality here <br>
  * <B>Create on:</B> 2020-05-16 21:58 <br>
@@ -44,7 +46,7 @@ public class MathUtil {
     }
 
     /**
-     * <B>Description:</B> try to parse input as double <br>
+     * <B>Description:</B> try to parse input as double, which will keep 15 decimal digits and in {@code BigDecimal.ROUND_HALF_DOWN} mode <br>
      * <B>Create on:</B> 2020-05-17 13:37 <br>
      *
      * @param
@@ -53,7 +55,8 @@ public class MathUtil {
      */
     public static Double tryParseDouble(String str) {
         try {
-            return Double.parseDouble(str);
+            BigDecimal b = new BigDecimal(str);
+            return b.setScale(15, BigDecimal.ROUND_HALF_DOWN).doubleValue();
         } catch (NumberFormatException nfe) {
             return null;
         }
