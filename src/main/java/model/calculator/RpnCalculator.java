@@ -91,6 +91,19 @@ public class RpnCalculator implements Calculator {
         int operandsNumber = operator.getOperandsNumber();
         checkOperandsNumber(result, index, firstToken, operandsNumber);
         // 3. calculate according to the required number of different operator
+        calculateByOperandsNumber(result, firstToken, operator, operandsNumber);
+        return recursiveCalculate(input, result, ++index);
+    }
+
+    /**
+     * <B>Description:</B> calculate according to required number of operands <br>
+     * <B>Create on:</B> 2020-07-13 22:33 <br>
+     *
+     * @param
+     * @return
+     * @author shengming.lin
+     */
+    private void calculateByOperandsNumber(ExtendStack<Double> result, String firstToken, RpnOperator operator, int operandsNumber) throws CalculatorException {
         switch (operandsNumber) {
             case 0: {
                 if (RpnOperator.CLEAR.equals(operator)) {
@@ -99,15 +112,15 @@ public class RpnCalculator implements Calculator {
                 if (RpnOperator.UNDO.equals(operator)) {
                     undo(result);
                 }
-                return recursiveCalculate(input, result, ++index);
+                break;
             }
             case 1: {
                 oneOperandCalculate(result, firstToken, operator);
-                return recursiveCalculate(input, result, ++index);
+                break;
             }
             case 2: {
                 twoOperandCalculate(result, firstToken, operator);
-                return recursiveCalculate(input, result, ++index);
+                break;
             }
             default: {
                 throw new CalculatorException("wrong operandsNumber for operator: " + firstToken);
