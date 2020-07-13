@@ -81,16 +81,15 @@ public class RpnCalculator implements Calculator {
         }
         String firstToken = input.poll();
         Double tryParseDouble = MathUtil.tryParseDouble(firstToken);
-        // if firstToken is number, just add to result stack
+        // 1. if firstToken is number, just add to result stack
         if (tryParseDouble != null) {
             result.add(tryParseDouble);
             return recursiveCalculate(input, result, ++index);
         }
         RpnOperator operator = RpnOperator.getEnum(firstToken);
+        // 2. examine number of operators
         int operandsNumber = operator.getOperandsNumber();
-        if (result.size() < operandsNumber) {
-            throw new CalculatorException(String.format("operator %s (position: %d): insucient parameters", firstToken, ++index));
-        }
+        checkOperandsNumber(result, index, firstToken, operandsNumber);
         switch (operandsNumber) {
             //hard code here
             case 0: {
@@ -126,6 +125,21 @@ public class RpnCalculator implements Calculator {
             default: {
                 throw new CalculatorException("wrong operandsNumber for operator: " + firstToken);
             }
+        }
+    }
+
+    /**
+     * <B>Description:</B> examine number of operators  <br>
+     * <B>Create on:</B> 2020-07-13 22:03 <br>
+     * if result size is smaller than required operandsNumber, throw an exception
+     *
+     * @param
+     * @return
+     * @author shengming.lin
+     */
+    private void checkOperandsNumber(ExtendStack<Double> result, int index, String firstToken, int operandsNumber) throws CalculatorException {
+        if (result.size() < operandsNumber) {
+            throw new CalculatorException(String.format("operator %s (position: %d): insucient parameters", firstToken, ++index));
         }
     }
 
