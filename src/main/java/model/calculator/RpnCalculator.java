@@ -103,27 +103,51 @@ public class RpnCalculator implements Calculator {
                 return recursiveCalculate(input, result, ++index);
             }
             case 1: {
-                Double pop = result.pop();
-                Double calculateResult = operator.calculate(pop, null);
-                result.add(calculateResult);
-                undoStack.add(String.valueOf(pop));
-                undoStack.add(firstToken);
+                oneOperandCalculate(result, firstToken, operator);
                 return recursiveCalculate(input, result, ++index);
             }
             case 2: {
-                Double pop1 = result.pop();
-                Double pop2 = result.pop();
-                Double calculateResult = operator.calculate(pop1, pop2);
-                result.add(calculateResult);
-                undoStack.add(String.valueOf(pop2));
-                undoStack.add(String.valueOf(pop1));
-                undoStack.add(firstToken);
+                twoOperandCalculate(result, firstToken, operator);
                 return recursiveCalculate(input, result, ++index);
             }
             default: {
                 throw new CalculatorException("wrong operandsNumber for operator: " + firstToken);
             }
         }
+    }
+
+    /**
+     * <B>Description:</B> deal with two operand calculation <br>
+     * <B>Create on:</B> 2020-07-13 22:27 <br>
+     *
+     * @param
+     * @return
+     * @author shengming.lin
+     */
+    private void twoOperandCalculate(ExtendStack<Double> result, String firstToken, RpnOperator operator) throws CalculatorException {
+        Double pop1 = result.pop();
+        Double pop2 = result.pop();
+        Double calculateResult = operator.calculate(pop1, pop2);
+        result.add(calculateResult);
+        undoStack.add(String.valueOf(pop2));
+        undoStack.add(String.valueOf(pop1));
+        undoStack.add(firstToken);
+    }
+
+    /**
+     * <B>Description:</B> deal with one operand calculation <br>
+     * <B>Create on:</B> 2020-07-13 22:27 <br>
+     *
+     * @param
+     * @return
+     * @author shengming.lin
+     */
+    private void oneOperandCalculate(ExtendStack<Double> result, String firstToken, RpnOperator operator) throws CalculatorException {
+        Double pop = result.pop();
+        Double calculateResult = operator.calculate(pop, null);
+        result.add(calculateResult);
+        undoStack.add(String.valueOf(pop));
+        undoStack.add(firstToken);
     }
 
     /**
