@@ -35,16 +35,13 @@ public class Main {
                 break;
             }
             try {
+                // 2.3 call calculate method to get result stack
                 ExtendStack<Double> stack = calculator.calculate(inputString);
                 stack.printStack();
             } catch (CalculatorException e) {
-                System.out.println(e.getMessage());
-                ExtendStack<Double> resultStack = calculator.getResultStack();
-                if (resultStack != null) {
-                    resultStack.printStack();
-                }
+                // 2.4 exception handler
+                calculator.handleException(e);
             }
         }
     }
-
 }

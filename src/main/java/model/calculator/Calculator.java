@@ -43,4 +43,20 @@ public interface Calculator {
      * @author shengming.lin
      */
     ExtendStack<Double> getResultStack();
+
+    /**
+     * <B>Description:</B> a default implementation to handle exception <br>
+     * <B>Create on:</B> 2020-07-13 21:02 <br>
+     *
+     * @param
+     * @return
+     * @author shengming.lin
+     */
+    default void handleException(CalculatorException e) {
+        System.out.println(e.getMessage());
+        ExtendStack<Double> resultStack = getResultStack();
+        if (resultStack != null) {
+            resultStack.printStack();
+        }
+    }
 }
