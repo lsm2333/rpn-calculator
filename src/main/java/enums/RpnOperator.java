@@ -133,8 +133,12 @@ public enum RpnOperator {
         }
     }
 
-    public static RpnOperator getEnum(String value) {
-        return lookup.get(value);
+    public static RpnOperator getEnum(String value) throws CalculatorException {
+        RpnOperator operator = lookup.get(value);
+        if (operator == null) {
+            throw new CalculatorException("unsupported operator: " + value);
+        }
+        return operator;
     }
 
     public abstract Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException;

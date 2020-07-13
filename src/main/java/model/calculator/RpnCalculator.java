@@ -23,7 +23,7 @@ public class RpnCalculator implements Calculator {
     public static final String BLANK = "\\s";
 
     /**
-     * stack to hold the output
+     * stack to hold the output number
      */
     private ExtendStack<Double> resultStack = new ExtendStack<>();
 
@@ -66,12 +66,12 @@ public class RpnCalculator implements Calculator {
     /**
      * <B>Description:</B> recursiveCalculate calculate, the recursiveCalculate stops when input is empty <br>
      * <B>Create on:</B> 2020-05-17 17:24 <br>
-     *
+     * <p>
      * add number to result stack directly, and pop one/two number(s) when a token is operator
      *
-     * @param input queue of token
+     * @param input  queue of token
      * @param result result stack of calculation result
-     * @param index the index of current token, used to find out exception location
+     * @param index  the index of current token, used to find out exception location
      * @return result stack
      * @author shengming.lin
      */
@@ -81,15 +81,12 @@ public class RpnCalculator implements Calculator {
         }
         String firstToken = input.poll();
         Double tryParseDouble = MathUtil.tryParseDouble(firstToken);
-        //if firstToken is number, just add to result stack
+        // if firstToken is number, just add to result stack
         if (tryParseDouble != null) {
             result.add(tryParseDouble);
             return recursiveCalculate(input, result, ++index);
         }
         RpnOperator operator = RpnOperator.getEnum(firstToken);
-        if (operator == null) {
-            throw new CalculatorException("unsupported operator: " + firstToken);
-        }
         int operandsNumber = operator.getOperandsNumber();
         if (result.size() < operandsNumber) {
             throw new CalculatorException(String.format("operator %s (position: %d): insucient parameters", firstToken, ++index));
