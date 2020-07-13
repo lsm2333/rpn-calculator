@@ -88,10 +88,8 @@ public class RpnCalculator implements Calculator {
         }
         // 2. the token is operator, try to execute the operator
         RpnOperator operator = RpnOperator.getEnum(firstToken);
-        int operandsNumber = operator.getOperandsNumber();
-        RpnOperatorUtil.checkOperandsNumber(result, index, firstToken, operandsNumber);
         // 3. calculate according to the required number of different operator
-        RpnOperatorUtil.calculateByOperandsNumber(result, undoStack, firstToken, operator, operandsNumber);
+        RpnOperatorUtil.calculateByOperandsNumber(result, undoStack, firstToken, operator, index);
         return recursiveCalculate(input, result, ++index);
     }
 

@@ -38,7 +38,9 @@ public class RpnOperatorUtil {
      * @return
      * @author shengming.lin
      */
-    public static void calculateByOperandsNumber(ExtendStack<Double> result, ExtendStack<String> undoStack, String firstToken, RpnOperator operator, int operandsNumber) throws CalculatorException {
+    public static void calculateByOperandsNumber(ExtendStack<Double> result, ExtendStack<String> undoStack, String firstToken, RpnOperator operator, int index) throws CalculatorException {
+        int operandsNumber = operator.getOperandsNumber();
+        RpnOperatorUtil.checkOperandsNumber(result, index, firstToken, operandsNumber);
         switch (operandsNumber) {
             case 0: {
                 if (RpnOperator.CLEAR.equals(operator)) {
