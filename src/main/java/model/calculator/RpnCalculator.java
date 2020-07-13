@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * <B>Description:</B> use a recursive method to implement rpn calculator <br>
+ * <B>Description:</B> use a recursiveCalculate method to implement rpn calculator <br>
  * <B>Create on:</B> 2020-05-17 17:25 <br>
  *
  * @author shengming.lin
@@ -54,7 +54,7 @@ public class RpnCalculator implements Calculator {
         for (String token : inputSplit) {
             inputQueue.add(token);
         }
-        recursive(inputQueue, resultStack, 0);
+        recursiveCalculate(inputQueue, resultStack, 0);
         return resultStack;
     }
 
@@ -64,14 +64,18 @@ public class RpnCalculator implements Calculator {
     }
 
     /**
-     * <B>Description:</B> recursive calculate, the recursive stops when input is empty <br>
+     * <B>Description:</B> recursiveCalculate calculate, the recursiveCalculate stops when input is empty <br>
      * <B>Create on:</B> 2020-05-17 17:24 <br>
      *
-     * @param
-     * @return
+     * add number to result stack directly, and pop one/two number(s) when a token is operator
+     *
+     * @param input queue of token
+     * @param result result stack of calculation result
+     * @param index the index of current token, used to find out exception location
+     * @return result stack
      * @author shengming.lin
      */
-    private ExtendStack<Double> recursive(Queue<String> input, ExtendStack<Double> result, int index) throws CalculatorException {
+    private ExtendStack<Double> recursiveCalculate(Queue<String> input, ExtendStack<Double> result, int index) throws CalculatorException {
         if (input == null || input.isEmpty()) {
             return result;
         }
@@ -80,7 +84,7 @@ public class RpnCalculator implements Calculator {
         //if firstToken is number, just add to result stack
         if (tryParseDouble != null) {
             result.add(tryParseDouble);
-            return recursive(input, result, ++index);
+            return recursiveCalculate(input, result, ++index);
         }
         RpnOperator operator = RpnOperator.getEnum(firstToken);
         if (operator == null) {
@@ -102,7 +106,7 @@ public class RpnCalculator implements Calculator {
                 if (RpnOperator.UNDO.equals(operator)) {
                     undo(result);
                 }
-                return recursive(input, result, ++index);
+                return recursiveCalculate(input, result, ++index);
             }
             case 1: {
                 Double pop = result.pop();
@@ -110,7 +114,7 @@ public class RpnCalculator implements Calculator {
                 result.add(calculateResult);
                 undoStack.add(String.valueOf(pop));
                 undoStack.add(firstToken);
-                return recursive(input, result, ++index);
+                return recursiveCalculate(input, result, ++index);
             }
             case 2: {
                 Double pop1 = result.pop();
@@ -120,7 +124,7 @@ public class RpnCalculator implements Calculator {
                 undoStack.add(String.valueOf(pop2));
                 undoStack.add(String.valueOf(pop1));
                 undoStack.add(firstToken);
-                return recursive(input, result, ++index);
+                return recursiveCalculate(input, result, ++index);
             }
             default: {
                 throw new CalculatorException("wrong operandsNumber for operator: " + firstToken);
