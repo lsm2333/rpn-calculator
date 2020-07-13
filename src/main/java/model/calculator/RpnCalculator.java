@@ -86,17 +86,15 @@ public class RpnCalculator implements Calculator {
             result.add(tryParseDouble);
             return recursiveCalculate(input, result, ++index);
         }
+        // 2. the token is operator, try to execute the operator
         RpnOperator operator = RpnOperator.getEnum(firstToken);
-        // 2. examine number of operators
         int operandsNumber = operator.getOperandsNumber();
         checkOperandsNumber(result, index, firstToken, operandsNumber);
         switch (operandsNumber) {
-            //hard code here
             case 0: {
                 //clear
                 if (RpnOperator.CLEAR.equals(operator)) {
-                    result.clear();
-                    undoStack.clear();
+                    clear(result);
                 }
                 //undo
                 if (RpnOperator.UNDO.equals(operator)) {
@@ -126,6 +124,18 @@ public class RpnCalculator implements Calculator {
                 throw new CalculatorException("wrong operandsNumber for operator: " + firstToken);
             }
         }
+    }
+
+    /**
+     * <B>Description:</B> clear the result and the undo stack <br>
+     * <B>Create on:</B> 2020-07-13 22:19 <br>
+     *
+     * @param
+     * @author shengming.lin
+     */
+    private void clear(ExtendStack<Double> result) {
+        result.clear();
+        undoStack.clear();
     }
 
     /**
@@ -193,8 +203,7 @@ public class RpnCalculator implements Calculator {
      * @author shengming.lin
      */
     public void clearStack() {
-        this.resultStack.clear();
-        this.undoStack.clear();
+        clear(this.resultStack);
         this.inputQueue.clear();
     }
 
