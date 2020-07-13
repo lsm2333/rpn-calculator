@@ -4,8 +4,8 @@ import enums.RpnOperator;
 import exception.CalculatorException;
 import model.others.ExtendStack;
 import utils.MathUtil;
+import utils.RpnOperatorUtil;
 
-import java.util.EmptyStackException;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -89,145 +89,10 @@ public class RpnCalculator implements Calculator {
         // 2. the token is operator, try to execute the operator
         RpnOperator operator = RpnOperator.getEnum(firstToken);
         int operandsNumber = operator.getOperandsNumber();
-        checkOperandsNumber(result, index, firstToken, operandsNumber);
+        RpnOperatorUtil.checkOperandsNumber(result, index, firstToken, operandsNumber);
         // 3. calculate according to the required number of different operator
-        calculateByOperandsNumber(result, firstToken, operator, operandsNumber);
+        RpnOperatorUtil.calculateByOperandsNumber(result, undoStack, firstToken, operator, operandsNumber);
         return recursiveCalculate(input, result, ++index);
-    }
-
-    /**
-     * <B>Description:</B> calculate according to required number of operands <br>
-     * <B>Create on:</B> 2020-07-13 22:33 <br>
-     *
-     * @param
-     * @return
-     * @author shengming.lin
-     */
-    private void calculateByOperandsNumber(ExtendStack<Double> result, String firstToken, RpnOperator operator, int operandsNumber) throws CalculatorException {
-        switch (operandsNumber) {
-            case 0: {
-                if (RpnOperator.CLEAR.equals(operator)) {
-                    clear(result);
-                }
-                if (RpnOperator.UNDO.equals(operator)) {
-                    undo(result);
-                }
-                break;
-            }
-            case 1: {
-                oneOperandCalculate(result, firstToken, operator);
-                break;
-            }
-            case 2: {
-                twoOperandCalculate(result, firstToken, operator);
-                break;
-            }
-            default: {
-                throw new CalculatorException("wrong operandsNumber for operator: " + firstToken);
-            }
-        }
-    }
-
-    /**
-     * <B>Description:</B> deal with two operand calculation <br>
-     * <B>Create on:</B> 2020-07-13 22:27 <br>
-     *
-     * @param
-     * @return
-     * @author shengming.lin
-     */
-    private void twoOperandCalculate(ExtendStack<Double> result, String firstToken, RpnOperator operator) throws CalculatorException {
-        Double pop1 = result.pop();
-        Double pop2 = result.pop();
-        Double calculateResult = operator.calculate(pop1, pop2);
-        result.add(calculateResult);
-        undoStack.add(String.valueOf(pop2));
-        undoStack.add(String.valueOf(pop1));
-        undoStack.add(firstToken);
-    }
-
-    /**
-     * <B>Description:</B> deal with one operand calculation <br>
-     * <B>Create on:</B> 2020-07-13 22:27 <br>
-     *
-     * @param
-     * @return
-     * @author shengming.lin
-     */
-    private void oneOperandCalculate(ExtendStack<Double> result, String firstToken, RpnOperator operator) throws CalculatorException {
-        Double pop = result.pop();
-        Double calculateResult = operator.calculate(pop, null);
-        result.add(calculateResult);
-        undoStack.add(String.valueOf(pop));
-        undoStack.add(firstToken);
-    }
-
-    /**
-     * <B>Description:</B> clear the result and the undo stack <br>
-     * <B>Create on:</B> 2020-07-13 22:19 <br>
-     *
-     * @param
-     * @author shengming.lin
-     */
-    private void clear(ExtendStack<Double> result) {
-        result.clear();
-        undoStack.clear();
-    }
-
-    /**
-     * <B>Description:</B> examine number of operators  <br>
-     * <B>Create on:</B> 2020-07-13 22:03 <br>
-     * if result size is smaller than required operandsNumber, throw an exception
-     *
-     * @param
-     * @return
-     * @author shengming.lin
-     */
-    private void checkOperandsNumber(ExtendStack<Double> result, int index, String firstToken, int operandsNumber) throws CalculatorException {
-        if (result.size() < operandsNumber) {
-            throw new CalculatorException(String.format("operator %s (position: %d): insucient parameters", firstToken, ++index));
-        }
-    }
-
-    /**
-     * <B>Description:</B> undo the last command <br>
-     * <B>Create on:</B> 2020-05-17 16:12 <br>
-     * every undo will pop the last token from undo-stack, and try to roll back numbers from undo-stack
-     *
-     * @param
-     * @return
-     * @author shengming.lin
-     */
-    private void undo(ExtendStack<Double> result) throws CalculatorException {
-        String lastToken = null;
-        try {
-            lastToken = undoStack.pop();
-        } catch (EmptyStackException e) {
-        }
-        if (lastToken == null && !result.isEmpty()) {
-            result.pop();
-        } else {
-            RpnOperator lastOperator = RpnOperator.getEnum(lastToken);
-            int lastOperatorNumber = lastOperator.getOperandsNumber();
-            switch (lastOperatorNumber) {
-                case 1: {
-                    result.pop();
-                    result.add(Double.valueOf(undoStack.pop()));
-                    break;
-                }
-                case 2: {
-                    result.pop();
-                    String pop1 = undoStack.pop();
-                    String pop2 = undoStack.pop();
-                    result.add(Double.valueOf(pop2));
-                    result.add(Double.valueOf(pop1));
-                    break;
-                }
-                default: {
-                    throw new CalculatorException("wrong operandsNumber for operator: " + lastToken);
-                }
-            }
-        }
     }
 
     /**
@@ -239,7 +104,8 @@ public class RpnCalculator implements Calculator {
      * @author shengming.lin
      */
     public void clearStack() {
-        clear(this.resultStack);
+        this.resultStack.clear();
+        undoStack.clear();
         this.inputQueue.clear();
     }
 
