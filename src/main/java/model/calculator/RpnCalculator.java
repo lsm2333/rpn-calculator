@@ -90,13 +90,12 @@ public class RpnCalculator implements Calculator {
         RpnOperator operator = RpnOperator.getEnum(firstToken);
         int operandsNumber = operator.getOperandsNumber();
         checkOperandsNumber(result, index, firstToken, operandsNumber);
+        // 3. calculate according to the required number of different operator
         switch (operandsNumber) {
             case 0: {
-                //clear
                 if (RpnOperator.CLEAR.equals(operator)) {
                     clear(result);
                 }
-                //undo
                 if (RpnOperator.UNDO.equals(operator)) {
                     undo(result);
                 }
