@@ -2,7 +2,6 @@ package model.calculator;
 
 import enums.RpnOperator;
 import exception.CalculatorException;
-import lombok.Getter;
 import model.others.ExtendStack;
 import utils.MathUtil;
 
@@ -18,10 +17,29 @@ import java.util.Queue;
  */
 public class RpnCalculator implements Calculator {
 
+    /**
+     * reg expression of blank
+     */
+    public static final String BLANK = "\\s";
+
+    /**
+     * stack to hold the output
+     */
     private ExtendStack<Double> resultStack = new ExtendStack<>();
+
+    /**
+     * queue to hold the input token, one token is polled each time
+     */
     private Queue<String> inputQueue = new LinkedList<>();
+
+    /**
+     * a stack for undo purpose
+     */
     private ExtendStack<String> undoStack = new ExtendStack<>();
 
+    /**
+     * Initializes a rpn calculator with self introduce
+     */
     public RpnCalculator() {
         this.selfIntro();
     }
@@ -31,8 +49,8 @@ public class RpnCalculator implements Calculator {
         if (input == null) {
             throw new CalculatorException("Input cannot be null.");
         }
-        //add into stack
-        String[] inputSplit = input.split("\\s");
+        //add into input queue
+        String[] inputSplit = input.split(BLANK);
         for (String token : inputSplit) {
             inputQueue.add(token);
         }
@@ -113,7 +131,8 @@ public class RpnCalculator implements Calculator {
     /**
      * <B>Description:</B> undo the last command <br>
      * <B>Create on:</B> 2020-05-17 16:12 <br>
-     *  every undo will pop the last token from undo-stack, and try to roll back numbers from undo-stack
+     * every undo will pop the last token from undo-stack, and try to roll back numbers from undo-stack
+     *
      * @param
      * @return
      * @author shengming.lin
