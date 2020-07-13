@@ -1,39 +1,36 @@
 import enums.CalculatorEnum;
 import enums.RpnOperator;
 import exception.CalculatorException;
-import factory.CalculatorFactory;
-import model.others.ExtendStack;
 import model.calculator.Calculator;
+import model.others.ExtendStack;
+import utils.CalculatorScannerUtil;
 
 import java.util.Scanner;
 
+/**
+ * <B>Description:</B> entry class <br>
+ * <B>Create on:</B> 2020-07-13 20:54 <br>
+ *
+ * @author shengming.lin
+ */
 public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Calculator calculator = null;
 
+        // 1. Firstly choose a calculator implementation
         System.out.println(String.format("Choose a calculator, supported options: %s", CalculatorEnum.getNames()));
-        while (scanner.hasNextLine()) {
-            String calculatorName = scanner.nextLine();
-            try {
-                calculator = new CalculatorFactory().getByName(calculatorName);
-            } catch (Throwable e) {
-                System.out.println(e.getMessage());
-                System.out.println(String.format("Choose a calculator, supported options: %s", CalculatorEnum.getNames()));
-                continue;
-            }
-            break;
-        }
+        Calculator calculator = CalculatorScannerUtil.getCalculator(scanner);
 
+        // 2. Secondly enter an expression
         System.out.println("Enter an expression now");
         while (true) {
-            // determine if further string is input
+            // 2.1 determine if further string is input
             String inputString = null;
             if (scanner.hasNextLine()) {
                 inputString = scanner.nextLine();
             }
-            // exit command makes program stop
+            // 2.2 exit command makes program stop
             if (RpnOperator.EXIT.getSymbol().equals(inputString)) {
                 break;
             }
@@ -49,4 +46,5 @@ public class Main {
             }
         }
     }
+
 }
