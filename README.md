@@ -25,8 +25,8 @@ A note under [javase specs Example §8.9.2-4](https://docs.oracle.com/javase/spe
 
 ## Add more stack based calculators
 1. you can implement more stack based calculators by implementing interface ```model.calculator.Calculator``` 
-    1. currenty it only defines a method ```ExtendStack<Double> calculate(String input)```
-    2. it also has a default method ```selfIntro()``` which you can use to introduce when specific calculator is chosen by user
+    1. currenty it defines a method ```ExtendStack<Double> calculate(String input)``` to calculate for input, and a method ```getResultStack``` to return result stack
+    2. it also has a default method ```selfIntro()``` which you can use to introduce when specific calculator is chosen by user; and a default method ```handleException``` to handle exception, print error message and stack
     
 # For users
 
