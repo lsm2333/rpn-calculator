@@ -70,8 +70,12 @@ public class RpnOperatorUtil {
      * <B>Description:</B> deal with operand calculation according to operandsNumber<br>
      * <B>Create on:</B> 2020-07-13 22:27 <br>
      *
-     * @param
+     * @param result the result stack contains the operands and result
+     * @param operator operator of the calculation
+     * @param undoStack the stack for undo purpose
+     * @param operandsNumber the required operands number of operator
      * @return
+     * @throws CalculatorException see more detail in {@link enums.RpnOperator#calculate(java.lang.Double, java.lang.Double)}
      * @author shengming.lin
      */
     private static void popAndCalculateByOperandsNumber(ExtendStack<Double> result, RpnOperator operator, ExtendStack<String> undoStack, int operandsNumber) throws CalculatorException {
