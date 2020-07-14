@@ -17,107 +17,107 @@ public enum RpnOperator {
 
     ADDITION("+", 2, "加法") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return secondOperand + firstOperand;
+        public Double calculate(Double first, Double second) {
+            return second + first;
         }
     },
 
     SUBTRACTION("-", 2, "减法") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return secondOperand - firstOperand;
+        public Double calculate(Double first, Double second) {
+            return second - first;
         }
     },
 
     MULTIPLICATION("*", 2, "乘法") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return secondOperand * firstOperand;
+        public Double calculate(Double first, Double second) {
+            return second * first;
         }
     },
 
     DIVISION("/", 2, "除法") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException {
-            if (firstOperand == 0)
+        public Double calculate(Double first, Double second) throws CalculatorException {
+            if (first == 0)
                 throw new CalculatorException("Cannot divide by 0.");
-            return secondOperand / firstOperand;
+            return second / first;
         }
     },
 
     SQUAREROOT("sqrt", 1, "开方") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return sqrt(firstOperand);
+        public Double calculate(Double first, Double second) {
+            return sqrt(first);
         }
     },
 
     POWER("pow", 1, "平方") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return pow(firstOperand, 2.0);
+        public Double calculate(Double first, Double second) {
+            return pow(first, 2.0);
         }
     },
 
     FACTORIAL("n!", 1, "阶乘") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return factorial(firstOperand);
+        public Double calculate(Double first, Double second) {
+            return factorial(first);
         }
     },
 
     REVERSE_FACTORIAL("rv-n!", 1, "逆阶乘") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return reFactorial(firstOperand);
+        public Double calculate(Double first, Double second) {
+            return reFactorial(first);
         }
     },
 
     COS("cos", 1, "余弦") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return cos(firstOperand);
+        public Double calculate(Double first, Double second) {
+            return cos(first);
         }
     },
 
     ACOS("acos", 1, "反余弦") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return acos(firstOperand);
+        public Double calculate(Double first, Double second) {
+            return acos(first);
         }
     },
 
     TAN("tan", 1, "正切") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return tan(firstOperand);
+        public Double calculate(Double first, Double second) {
+            return tan(first);
         }
     },
 
     ATAN("atan", 1, "反正切") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return atan(firstOperand);
+        public Double calculate(Double first, Double second) {
+            return atan(first);
         }
     },
 
     UNDO("undo", 0, "撤回") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException {
+        public Double calculate(Double first, Double second) throws CalculatorException {
             throw new CalculatorException("Invalid operation");
         }
     },
 
     CLEAR("clear", 0, "清除") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException {
+        public Double calculate(Double first, Double second) throws CalculatorException {
             throw new CalculatorException("Invalid operation");
         }
     },
 
     EXIT("exit", 0, "退出") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException {
+        public Double calculate(Double first, Double second) throws CalculatorException {
             throw new CalculatorException("Invalid operation");
         }
     };
@@ -126,7 +126,7 @@ public enum RpnOperator {
     private int operandsNumber;
     private String chinese;
 
-    public abstract Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException;
+    public abstract Double calculate(Double first, Double second) throws CalculatorException;
 
     /**
      * using map for a constant lookup cost
