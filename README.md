@@ -38,13 +38,10 @@ For example, the SOLID principle(https://en.wikipedia.org/wiki/SOLID). I abstrac
 ## Add more operators
 1. just add one enum in ```enums.RpnOperator``` with implementation.
 2. nothing else!
+3. the reason I use abstract method in enum is to set a limitation on the implementation of operator.
+A note under [javase specs Example §8.9.2-4](https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.9.2)  seems to agree: ```This pattern is much safer than using a switch statement in the base type (Operation), as the pattern precludes the possibility of forgetting to add a behavior for a new constant (since the enum declaration would cause a compile-time error).``` 
 
 ## Add more stack based calculators
 1. you can implement more stack based calculators by implementing interface ```model.calculator.Calculator``` 
     1. currenty it only defines a method ```ExtendStack<Double> calculate(String input)```
     2. it also has a default method ```selfIntro()``` which you can use to introduce when specific calculator is chosen by user
-
-# Reference
-The following codes bring more idea to me and ```enums.RpnOperator``` basically extends from gvnn's project .
-- [https://github.com/gvnn/rpn-calculator](https://github.com/gvnn/rpn-calculator)
-- [https://gist.github.com/vise890/5902461](https://gist.github.com/vise890/5902461)
