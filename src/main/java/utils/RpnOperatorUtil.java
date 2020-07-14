@@ -42,9 +42,9 @@ public class RpnOperatorUtil {
      * @return
      * @author shengming.lin
      */
-    public static void calculateByOperandsNumber(ExtendStack<Double> result, ExtendStack<String> undoStack, String firstToken, RpnOperator operator, int index) throws CalculatorException {
+    public static void calculateByOperandsNumber(ExtendStack<Double> result, ExtendStack<String> undoStack, RpnOperator operator, int index) throws CalculatorException {
         int operandsNumber = operator.getOperandsNumber();
-        RpnOperatorUtil.checkOperandsNumber(result.size(), operandsNumber, index, firstToken);
+        RpnOperatorUtil.checkOperandsNumber(result.size(), operandsNumber, index, operator.getSymbol());
         switch (operandsNumber) {
             case 0: {
                 if (RpnOperator.CLEAR.equals(operator)) {
@@ -61,7 +61,7 @@ public class RpnOperatorUtil {
                 break;
             }
             default: {
-                throw new CalculatorException("wrong operandsNumber for operator: " + firstToken);
+                throw new CalculatorException("wrong operandsNumber for operator: " + operator.getSymbol());
             }
         }
     }

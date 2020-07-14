@@ -89,7 +89,7 @@ public class RpnCalculator implements Calculator {
         // 2. the token is operator, try to execute the operator
         RpnOperator operator = RpnOperator.getEnum(firstToken);
         // 3. calculate according to the required number of different operator
-        RpnOperatorUtil.calculateByOperandsNumber(result, undoStack, firstToken, operator, index);
+        RpnOperatorUtil.calculateByOperandsNumber(result, undoStack, operator, index);
         return recursiveCalculate(input, result, ++index);
     }
 
