@@ -15,116 +15,122 @@ import static utils.MathUtil.reFactorial;
 @AllArgsConstructor
 public enum RpnOperator {
 
-    ADDITION("+", 2) {
+    ADDITION("+", 2, "加法") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return secondOperand + firstOperand;
+        public Double calculate(Double first, Double second) {
+            return second + first;
         }
     },
 
-    SUBTRACTION("-", 2) {
+    SUBTRACTION("-", 2, "减法") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return secondOperand - firstOperand;
+        public Double calculate(Double first, Double second) {
+            return second - first;
         }
     },
 
-    MULTIPLICATION("*", 2) {
+    MULTIPLICATION("*", 2, "乘法") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return secondOperand * firstOperand;
+        public Double calculate(Double first, Double second) {
+            return second * first;
         }
     },
 
-    DIVISION("/", 2) {
+    DIVISION("/", 2, "除法") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException {
-            if (firstOperand == 0)
+        public Double calculate(Double first, Double second) throws CalculatorException {
+            if (first == 0)
                 throw new CalculatorException("Cannot divide by 0.");
-            return secondOperand / firstOperand;
+            return second / first;
         }
     },
 
-    SQUAREROOT("sqrt", 1) {
+    SQUAREROOT("sqrt", 1, "开方") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return sqrt(firstOperand);
+        public Double calculate(Double first, Double second) {
+            return sqrt(first);
         }
     },
 
-    POWER("pow", 1) {
+    POWER("pow", 1, "平方") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return pow(firstOperand, 2.0);
+        public Double calculate(Double first, Double second) {
+            return pow(first, 2.0);
         }
     },
 
-    UNDO("undo", 0) {
+    FACTORIAL("n!", 1, "阶乘") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException {
+        public Double calculate(Double first, Double second) {
+            return factorial(first);
+        }
+    },
+
+    REVERSE_FACTORIAL("rv-n!", 1, "逆阶乘") {
+        @Override
+        public Double calculate(Double first, Double second) {
+            return reFactorial(first);
+        }
+    },
+
+    COS("cos", 1, "余弦") {
+        @Override
+        public Double calculate(Double first, Double second) {
+            return cos(first);
+        }
+    },
+
+    ACOS("acos", 1, "反余弦") {
+        @Override
+        public Double calculate(Double first, Double second) {
+            return acos(first);
+        }
+    },
+
+    TAN("tan", 1, "正切") {
+        @Override
+        public Double calculate(Double first, Double second) {
+            return tan(first);
+        }
+    },
+
+    ATAN("atan", 1, "反正切") {
+        @Override
+        public Double calculate(Double first, Double second) {
+            return atan(first);
+        }
+    },
+
+    UNDO("undo", 0, "撤回") {
+        @Override
+        public Double calculate(Double first, Double second) throws CalculatorException {
             throw new CalculatorException("Invalid operation");
         }
     },
 
-    CLEAR("clear", 0) {
+    CLEAR("clear", 0, "清除") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException {
+        public Double calculate(Double first, Double second) throws CalculatorException {
             throw new CalculatorException("Invalid operation");
         }
     },
 
-    EXIT("exit", 0) {
+    EXIT("exit", 0, "退出") {
         @Override
-        public Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException {
+        public Double calculate(Double first, Double second) throws CalculatorException {
             throw new CalculatorException("Invalid operation");
-        }
-    },
-
-    FACTORIAL("n!", 1) {
-        @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return factorial(firstOperand);
-        }
-    },
-
-    REVERSE_FACTORIAL("rv-n!", 1) {
-        @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return reFactorial(firstOperand);
-        }
-    },
-
-    COS("cos", 1) {
-        @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return cos(firstOperand);
-        }
-    },
-
-    ACOS("acos", 1) {
-        @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return acos(firstOperand);
-        }
-    },
-
-    ATAN("atan", 1) {
-        @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return atan(firstOperand);
-        }
-    },
-
-    TAN("tan", 1) {
-        @Override
-        public Double calculate(Double firstOperand, Double secondOperand) {
-            return tan(firstOperand);
         }
     };
 
     private String symbol;
     private int operandsNumber;
-    // using map for a constant lookup cost
+    private String chinese;
+
+    public abstract Double calculate(Double first, Double second) throws CalculatorException;
+
+    /**
+     * using map for a constant lookup cost
+     */
     private static final Map<String, RpnOperator> lookup = new HashMap<>();
 
     static {
@@ -133,11 +139,13 @@ public enum RpnOperator {
         }
     }
 
-    public static RpnOperator getEnum(String value) {
-        return lookup.get(value);
+    public static RpnOperator getEnum(String value) throws CalculatorException {
+        RpnOperator operator = lookup.get(value);
+        if (operator == null) {
+            throw new CalculatorException("unsupported operator: " + value);
+        }
+        return operator;
     }
-
-    public abstract Double calculate(Double firstOperand, Double secondOperand) throws CalculatorException;
 
     @Override
     public String toString() {

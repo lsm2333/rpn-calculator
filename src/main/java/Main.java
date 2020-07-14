@@ -1,51 +1,44 @@
-import enums.CalculatorEnum;
 import enums.RpnOperator;
 import exception.CalculatorException;
-import factory.CalculatorFactory;
-import model.others.ExtendStack;
 import model.calculator.Calculator;
+import model.calculator.RpnCalculator;
+import model.others.ExtendStack;
 
 import java.util.Scanner;
 
+/**
+ * <B>Description:</B> entry class <br>
+ * <B>Create on:</B> 2020-07-13 20:54 <br>
+ *
+ * @author shengming.lin
+ */
 public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Calculator calculator = null;
 
-        System.out.println(String.format("Choose a calculator, supported options: %s", CalculatorEnum.getNames()));
-        while (scanner.hasNextLine()) {
-            String calculatorName = scanner.nextLine();
-            try {
-                calculator = new CalculatorFactory().getByName(calculatorName);
-            } catch (Throwable e) {
-                System.out.println(e.getMessage());
-                System.out.println(String.format("Choose a calculator, supported options: %s", CalculatorEnum.getNames()));
-                continue;
-            }
-            break;
-        }
+        // 1. Firstly init a Calculator
+        Calculator calculator = new RpnCalculator();
 
+        // 2. Secondly enter an expression
         System.out.println("Enter an expression now");
         while (true) {
-            // determine if further string is input
+            // 2.1 determine if further string is input
             String inputString = null;
             if (scanner.hasNextLine()) {
                 inputString = scanner.nextLine();
             }
-            // exit command makes program stop
+            // 2.2 exit command makes program stop
             if (RpnOperator.EXIT.getSymbol().equals(inputString)) {
                 break;
             }
             try {
+                // 2.3 call calculate method to get result stack
                 ExtendStack<Double> stack = calculator.calculate(inputString);
                 stack.printStack();
             } catch (CalculatorException e) {
-                System.out.println(e.getMessage());
-                ExtendStack<Double> resultStack = calculator.getResultStack();
-                if (resultStack != null) {
-                    resultStack.printStack();
-                }
+                // 2.4 exception handler
+                calculator.handleException(e);
             }
         }
     }

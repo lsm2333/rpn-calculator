@@ -14,12 +14,22 @@ This project implements a basic calculator including RPN-calculator using java. 
 - Customize the colour of each number in the stack depends on it position.
 
 # For users
+
+## Run
 1. try ```run_calculator.sh```, which is equivalent to following operation
     1. run ```mvn package``` to build a jar under /target
     2. run command ```java -jar target/rpn-calculator-0.0.1-SNAPSHOT.jar```  to run a rpn calculator or ```mvn exec:java``` 
-2. a guide statement will show ```"Choose a calculator, supported options: [rpn]"```
-3. enter ```rpn``` to enable rpn-calculator, and then the calculator will introduce itself
-4. enter an expression to calculate
+2. rpn calculator is chosen by default
+3. enter an expression to calculate
+
+the actual running example:
+![](src/main/resources/image/run_example.png)
+
+## Test
+1. try ```test.sh``` which will execute ```mvn test```
+
+the actual testing example:
+![](src/main/resources/image/test_example.png)
 
 # For developers
 Just share some thoughts during development to help developers go further beyond this project. In order to make project have better maintainability and extensibility, I take some of the design principle into consideration.
@@ -33,8 +43,6 @@ For example, the SOLID principle(https://en.wikipedia.org/wiki/SOLID). I abstrac
 1. you can implement more stack based calculators by implementing interface ```model.calculator.Calculator``` 
     1. currenty it only defines a method ```ExtendStack<Double> calculate(String input)```
     2. it also has a default method ```selfIntro()``` which you can use to introduce when specific calculator is chosen by user
-2. add one enum in ```enums.CalculatorEnum``` for the calculator you've just implemented, therefore the user will be able to see it on console when program starts
-3. ```factory.CalculatorFactory``` is designed to return an calculator instance by name so no need to worry about the instantiation
 
 # Reference
 The following codes bring more idea to me and ```enums.RpnOperator``` basically extends from gvnn's project .
