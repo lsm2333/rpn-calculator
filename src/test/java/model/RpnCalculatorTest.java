@@ -132,6 +132,18 @@ public class RpnCalculatorTest {
         );
     }
 
+    @Test
+    public void testSelfIntro() {
+        System.out.println("current test case is: testSelfIntro");
+        rpnCalculator.selfIntro();
+    }
+
+    @Test
+    public void testHandleException() {
+        System.out.println("current test case is: testHandleException");
+        rpnCalculator.handleException(new CalculatorException("testHandleException"));
+    }
+
     /**
      * <B>Description:</B> common logic of test <br>
      * <B>Create on:</B> 2020-07-14 02:06 <br>
