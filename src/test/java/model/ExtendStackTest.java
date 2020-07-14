@@ -10,6 +10,7 @@ public class ExtendStackTest {
 
     @Test
     public void testPrintStack() {
+        System.out.println("current test is testPrintStack");
         ExtendStack<Double> extendStack = new ExtendStack<>(1D, 2D);
         extendStack.printStack();
     }

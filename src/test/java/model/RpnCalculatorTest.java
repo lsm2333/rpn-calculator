@@ -93,14 +93,18 @@ public class RpnCalculatorTest {
     @Test(expected = CalculatorException.class)
     public void testCase8() throws CalculatorException {
         try {
+            System.out.println("----------");
             System.out.println("current test case is: case8");
-            rpnCalculator.calculate("1 2 3 * 5 + * * 6 5");
+            String input = "1 2 3 * 5 + * * 6 5";
+            System.out.println(input);
+            rpnCalculator.calculate(input);
         } catch (CalculatorException e) {
             ExtendStack<Double> result = rpnCalculator.getResultStack();
             ExtendStack<Double> expected = new ExtendStack<>();
             expected.add(11D);
             assertEquals("expectation not matched", expected, result);
             assertEquals("exception message is not matched", "operator * (position: 8): insucient parameters", e.getMessage());
+            System.out.println(e.getMessage());
             throw e;
         }
     }
@@ -134,6 +138,7 @@ public class RpnCalculatorTest {
 
     @Test
     public void testSelfIntro() {
+        System.out.println("----------");
         System.out.println("current test case is: testSelfIntro");
         rpnCalculator.selfIntro();
     }
@@ -155,11 +160,14 @@ public class RpnCalculatorTest {
      * @author shengming.lin
      */
     private void testCommonLogic(String caseName, String[] inputArray, ExtendStack<Double>... expectedArray) {
+        System.out.println("----------");
         System.out.println("current test case is: " + caseName);
         ExtendStack<Double> result;
         try {
             for (int i = 0; i < inputArray.length; i++) {
+                System.out.println(inputArray[i]);
                 result = rpnCalculator.calculate(inputArray[i]);
+                rpnCalculator.getResultStack().printStack();
                 ExtendStack<Double> expected = expectedArray[i];
                 assertEquals("expectation not matched", expected, result);
             }
