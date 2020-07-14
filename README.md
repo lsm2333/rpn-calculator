@@ -13,6 +13,21 @@ This project implements a basic calculator including RPN-calculator using java. 
 - Bring it online
 - Customize the colour of each number in the stack depends on it position.
 
+# For developers
+Just share some thoughts during development to help developers go further beyond this project. In order to make project have better maintainability and extensibility, I take some of the design principle into consideration.
+For example, the SOLID principle(https://en.wikipedia.org/wiki/SOLID). I abstract an interface ```model.calculator.Calculator``` for stack based calculators. For more details, please check below lists.
+
+## Add more operators
+1. just add one enum in ```enums.RpnOperator``` with implementation.
+2. nothing else!
+3. the reason I use abstract method in enum is to set a limitation on the implementation of operator.
+A note under [javase specs Example §8.9.2-4](https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.9.2)  seems to agree: ```This pattern is much safer than using a switch statement in the base type (Operation), as the pattern precludes the possibility of forgetting to add a behavior for a new constant (since the enum declaration would cause a compile-time error).``` 
+
+## Add more stack based calculators
+1. you can implement more stack based calculators by implementing interface ```model.calculator.Calculator``` 
+    1. currenty it only defines a method ```ExtendStack<Double> calculate(String input)```
+    2. it also has a default method ```selfIntro()``` which you can use to introduce when specific calculator is chosen by user
+    
 # For users
 
 ## Run
@@ -30,18 +45,3 @@ the actual running example:
 
 the actual testing example:
 ![](src/main/resources/image/test_example.png)
-
-# For developers
-Just share some thoughts during development to help developers go further beyond this project. In order to make project have better maintainability and extensibility, I take some of the design principle into consideration.
-For example, the SOLID principle(https://en.wikipedia.org/wiki/SOLID). I abstract an interface ```model.calculator.Calculator``` for stack based calculators. For more details, please check below lists.
-
-## Add more operators
-1. just add one enum in ```enums.RpnOperator``` with implementation.
-2. nothing else!
-3. the reason I use abstract method in enum is to set a limitation on the implementation of operator.
-A note under [javase specs Example §8.9.2-4](https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.9.2)  seems to agree: ```This pattern is much safer than using a switch statement in the base type (Operation), as the pattern precludes the possibility of forgetting to add a behavior for a new constant (since the enum declaration would cause a compile-time error).``` 
-
-## Add more stack based calculators
-1. you can implement more stack based calculators by implementing interface ```model.calculator.Calculator``` 
-    1. currenty it only defines a method ```ExtendStack<Double> calculate(String input)```
-    2. it also has a default method ```selfIntro()``` which you can use to introduce when specific calculator is chosen by user
