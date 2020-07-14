@@ -14,11 +14,22 @@ This project implements a basic calculator including RPN-calculator using java. 
 - Customize the colour of each number in the stack depends on it position.
 
 # For users
+
+## Run
 1. try ```run_calculator.sh```, which is equivalent to following operation
     1. run ```mvn package``` to build a jar under /target
     2. run command ```java -jar target/rpn-calculator-0.0.1-SNAPSHOT.jar```  to run a rpn calculator or ```mvn exec:java``` 
 2. rpn calculator is chosen by default
 3. enter an expression to calculate
+
+the actual running example:
+![](src/main/resources/image/run_example.png)
+
+## Test
+1. try ```test.sh``` which will execute ```mvn test```
+
+the actual testing example:
+![](src/main/resources/image/test_example.png)
 
 # For developers
 Just share some thoughts during development to help developers go further beyond this project. In order to make project have better maintainability and extensibility, I take some of the design principle into consideration.
