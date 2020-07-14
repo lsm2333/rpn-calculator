@@ -20,13 +20,17 @@ public class RpnOperatorUtil {
      * <B>Create on:</B> 2020-07-13 22:03 <br>
      * if result size is smaller than required operandsNumber, throw an exception
      *
-     * @param
+     * @param resultSize the size of the result stack
+     * @param index the index of the current token
+     * @param operandsNumber the required number of the operands for current operator
+     * @param operator current operator
      * @return
+     * @throws CalculatorException if result stack doesn't match required operand number
      * @author shengming.lin
      */
-    public static void checkOperandsNumber(ExtendStack<Double> result, int index, String firstToken, int operandsNumber) throws CalculatorException {
-        if (result.size() < operandsNumber) {
-            throw new CalculatorException(String.format("operator %s (position: %d): insucient parameters", firstToken, ++index));
+    public static void checkOperandsNumber(int resultSize, int operandsNumber, int index, String operator) throws CalculatorException {
+        if (resultSize < operandsNumber) {
+            throw new CalculatorException(String.format("operator %s (position: %d): insucient parameters", operator, ++index));
         }
     }
 
@@ -40,7 +44,7 @@ public class RpnOperatorUtil {
      */
     public static void calculateByOperandsNumber(ExtendStack<Double> result, ExtendStack<String> undoStack, String firstToken, RpnOperator operator, int index) throws CalculatorException {
         int operandsNumber = operator.getOperandsNumber();
-        RpnOperatorUtil.checkOperandsNumber(result, index, firstToken, operandsNumber);
+        RpnOperatorUtil.checkOperandsNumber(result.size(), operandsNumber, index, firstToken);
         switch (operandsNumber) {
             case 0: {
                 if (RpnOperator.CLEAR.equals(operator)) {
