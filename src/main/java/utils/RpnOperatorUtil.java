@@ -111,8 +111,10 @@ public class RpnOperatorUtil {
      * <B>Create on:</B> 2020-05-17 16:12 <br>
      * every undo will pop the last token from undo-stack, and try to roll back numbers from undo-stack
      *
-     * @param
+     * @param result the result stack
+     * @param undoStack the undo stack
      * @return
+     * @throws CalculatorException when a wrong operandsNumber is defined
      * @author shengming.lin
      */
     private static void undo(ExtendStack<Double> result, ExtendStack<String> undoStack) throws CalculatorException {
@@ -120,7 +122,9 @@ public class RpnOperatorUtil {
         try {
             lastToken = undoStack.pop();
         } catch (EmptyStackException e) {
+            //allow to undo an empty stack here
         }
+        // if there is no operator/operands in undoStack, rollback the result stack
         if (lastToken == null && !result.isEmpty()) {
             result.pop();
         } else {
