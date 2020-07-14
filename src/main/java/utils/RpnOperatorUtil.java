@@ -75,7 +75,7 @@ public class RpnOperatorUtil {
      * @param undoStack the stack for undo purpose
      * @param operandsNumber the required operands number of operator
      * @return
-     * @throws CalculatorException see more detail in {@link enums.RpnOperator#calculate(java.lang.Double, java.lang.Double)}
+     * @throws CalculatorException see more detail in {@link RpnOperator#calculate(java.lang.Double, java.lang.Double...)}
      * @author shengming.lin
      */
     private static void popAndCalculateByOperandsNumber(ExtendStack<Double> result, RpnOperator operator, ExtendStack<String> undoStack, int operandsNumber) throws CalculatorException {
