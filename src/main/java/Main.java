@@ -1,9 +1,8 @@
-import enums.CalculatorEnum;
 import enums.RpnOperator;
 import exception.CalculatorException;
 import model.calculator.Calculator;
+import model.calculator.RpnCalculator;
 import model.others.ExtendStack;
-import utils.CalculatorScannerUtil;
 
 import java.util.Scanner;
 
@@ -18,9 +17,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // 1. Firstly choose a calculator implementation
-        System.out.println(String.format("Choose a calculator, supported options: %s", CalculatorEnum.getNames()));
-        Calculator calculator = CalculatorScannerUtil.getCalculator(scanner);
+        // 1. Firstly init a Calculator
+        Calculator calculator = new RpnCalculator();
 
         // 2. Secondly enter an expression
         System.out.println("Enter an expression now");
