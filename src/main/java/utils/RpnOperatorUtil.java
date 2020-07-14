@@ -20,10 +20,10 @@ public class RpnOperatorUtil {
      * <B>Create on:</B> 2020-07-13 22:03 <br>
      * if result size is smaller than required operandsNumber, throw an exception
      *
-     * @param resultSize the size of the result stack
-     * @param index the index of the current token
+     * @param resultSize     the size of the result stack
+     * @param index          the index of the current token
      * @param operandsNumber the required number of the operands for current operator
-     * @param operator current operator
+     * @param operator       current operator
      * @return
      * @throws CalculatorException if result stack doesn't match required operand number
      * @author shengming.lin
@@ -55,12 +55,9 @@ public class RpnOperatorUtil {
                 }
                 break;
             }
-            case 1: {
-                oneOperandCalculate(result, firstToken, operator, undoStack);
-                break;
-            }
+            case 1:
             case 2: {
-                twoOperandCalculate(result, firstToken, operator, undoStack);
+                popAndCalculateByOperandsNumber(result, operator, undoStack, operandsNumber);
                 break;
             }
             default: {
@@ -70,37 +67,27 @@ public class RpnOperatorUtil {
     }
 
     /**
-     * <B>Description:</B> deal with two operand calculation <br>
+     * <B>Description:</B> deal with operand calculation according to operandsNumber<br>
      * <B>Create on:</B> 2020-07-13 22:27 <br>
      *
      * @param
      * @return
      * @author shengming.lin
      */
-    private static void twoOperandCalculate(ExtendStack<Double> result, String firstToken, RpnOperator operator, ExtendStack<String> undoStack) throws CalculatorException {
+    private static void popAndCalculateByOperandsNumber(ExtendStack<Double> result, RpnOperator operator, ExtendStack<String> undoStack, int operandsNumber) throws CalculatorException {
+        // 1. pop from result stack
         Double pop1 = result.pop();
-        Double pop2 = result.pop();
+        Double pop2 = operandsNumber == 2 ? result.pop() : null;
+        // 2. call calculate method to execute popped operands
         Double calculateResult = operator.calculate(pop1, pop2);
+        // 3. add result into result stack
         result.add(calculateResult);
-        undoStack.add(String.valueOf(pop2));
+        // 4. add both operands and operator to undo stack
+        if (operandsNumber == 2) {
+            undoStack.add(String.valueOf(pop2));
+        }
         undoStack.add(String.valueOf(pop1));
-        undoStack.add(firstToken);
-    }
-
-    /**
-     * <B>Description:</B> deal with one operand calculation <br>
-     * <B>Create on:</B> 2020-07-13 22:27 <br>
-     *
-     * @param
-     * @return
-     * @author shengming.lin
-     */
-    private static void oneOperandCalculate(ExtendStack<Double> result, String firstToken, RpnOperator operator, ExtendStack<String> undoStack) throws CalculatorException {
-        Double pop = result.pop();
-        Double calculateResult = operator.calculate(pop, null);
-        result.add(calculateResult);
-        undoStack.add(String.valueOf(pop));
-        undoStack.add(firstToken);
+        undoStack.add(operator.getSymbol());
     }
 
     /**
