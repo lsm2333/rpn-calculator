@@ -135,7 +135,9 @@ public class RpnOperatorUtil {
      * <B>Description:</B> rollback from undo stack according to operand number <br>
      * <B>Create on:</B> 2020-07-15 20:58 <br>
      *
-     * @param
+     * @param result the result stack
+     * @param undoStack the undo stack
+     * @param operandNumber the operand number for operator
      * @return
      * @author shengming.lin
      */
