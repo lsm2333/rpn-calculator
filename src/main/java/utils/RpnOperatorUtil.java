@@ -55,13 +55,8 @@ public class RpnOperatorUtil {
                 }
                 break;
             }
-            case 1:
-            case 2: {
-                popAndCalculateByOperandsNumber(result, operator, undoStack, operandsNumber);
-                break;
-            }
             default: {
-                throw new CalculatorException("wrong operandsNumber for operator: " + operator.getSymbol());
+                popAndCalculateByOperandsNumber(result, operator, undoStack, operandsNumber);
             }
         }
     }
@@ -70,9 +65,9 @@ public class RpnOperatorUtil {
      * <B>Description:</B> deal with operand calculation according to operandsNumber<br>
      * <B>Create on:</B> 2020-07-13 22:27 <br>
      *
-     * @param result the result stack contains the operands and result
-     * @param operator operator of the calculation
-     * @param undoStack the stack for undo purpose
+     * @param result         the result stack contains the operands and result
+     * @param operator       operator of the calculation
+     * @param undoStack      the stack for undo purpose
      * @param operandsNumber the required operands number of operator
      * @return
      * @throws CalculatorException see more detail in {@link RpnOperator#calculate(java.lang.Double, java.lang.Double...)}
@@ -80,17 +75,20 @@ public class RpnOperatorUtil {
      */
     private static void popAndCalculateByOperandsNumber(ExtendStack<Double> result, RpnOperator operator, ExtendStack<String> undoStack, int operandsNumber) throws CalculatorException {
         // 1. pop from result stack
-        Double pop1 = result.pop();
-        Double pop2 = operandsNumber == 2 ? result.pop() : null;
+        Double[] more = new Double[operandsNumber];
+        Double first = result.pop();
+        for (int i = 0; i < operandsNumber - 1; i++) {
+            more[i] = result.pop();
+        }
         // 2. call calculate method to execute popped operands
-        Double calculateResult = operator.calculate(pop1, pop2);
+        Double calculateResult = operator.calculate(first, more);
         // 3. add result into result stack
         result.add(calculateResult);
         // 4. add both operands and operator to undo stack
-        if (operandsNumber == 2) {
-            undoStack.add(String.valueOf(pop2));
+        for (int i = operandsNumber - 2; i >= 0; i--) {
+            undoStack.add(String.valueOf(more[i]));
         }
-        undoStack.add(String.valueOf(pop1));
+        undoStack.add(String.valueOf(first));
         undoStack.add(operator.getSymbol());
     }
 
@@ -111,7 +109,7 @@ public class RpnOperatorUtil {
      * <B>Create on:</B> 2020-05-17 16:12 <br>
      * every undo will pop the last token from undo-stack, and try to roll back numbers from undo-stack
      *
-     * @param result the result stack
+     * @param result    the result stack
      * @param undoStack the undo stack
      * @return
      * @throws CalculatorException when a wrong operandsNumber is defined
@@ -129,25 +127,26 @@ public class RpnOperatorUtil {
             result.pop();
         } else {
             RpnOperator lastOperator = RpnOperator.getEnum(lastToken);
-            int lastOperatorNumber = lastOperator.getOperandsNumber();
-            switch (lastOperatorNumber) {
-                case 1: {
-                    result.pop();
-                    result.add(Double.valueOf(undoStack.pop()));
-                    break;
-                }
-                case 2: {
-                    result.pop();
-                    String pop1 = undoStack.pop();
-                    String pop2 = undoStack.pop();
-                    result.add(Double.valueOf(pop2));
-                    result.add(Double.valueOf(pop1));
-                    break;
-                }
-                default: {
-                    throw new CalculatorException("wrong operandsNumber for operator: " + lastToken);
-                }
-            }
+            rollbackByOperandNumber(result, undoStack, lastOperator.getOperandsNumber());
+        }
+    }
+
+    /**
+     * <B>Description:</B> rollback from undo stack according to operand number <br>
+     * <B>Create on:</B> 2020-07-15 20:58 <br>
+     *
+     * @param
+     * @return
+     * @author shengming.lin
+     */
+    private static void rollbackByOperandNumber(ExtendStack<Double> result, ExtendStack<String> undoStack, int operandNumber) {
+        result.pop();
+        String[] popArray = new String[operandNumber];
+        for (int i = 0; i < operandNumber; i++) {
+            popArray[i] = undoStack.pop();
+        }
+        for (int i = operandNumber - 1; i >= 0; i--) {
+            result.add(Double.valueOf(popArray[i]));
         }
     }
 }

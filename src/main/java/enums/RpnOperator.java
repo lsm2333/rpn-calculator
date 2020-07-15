@@ -15,6 +15,16 @@ import static utils.MathUtil.reFactorial;
 @AllArgsConstructor
 public enum RpnOperator {
 
+    /**
+     * a meaningless operator just to satisfy three operands number requirement
+     */
+    THREE_OPERANDS("to", 3, "3位操作符") {
+        @Override
+        public Double calculate(Double first, Double... more) {
+            return more[1] + more[0] + first;
+        }
+    },
+
     ADDITION("+", 2, "加法") {
         @Override
         public Double calculate(Double first, Double... more) {

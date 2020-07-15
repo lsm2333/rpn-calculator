@@ -149,6 +149,15 @@ public class RpnCalculatorTest {
         rpnCalculator.handleException(new CalculatorException("testHandleException"));
     }
 
+    @Test
+    public void testThreeOperandsOperator() {
+        testCommonLogic("testThreeOperandsOperator",
+                new String[]{"1 2 3 to", "undo"},
+                new ExtendStack<>(6D),
+                new ExtendStack<>(1D, 2D, 3D)
+        );
+    }
+
     /**
      * <B>Description:</B> common logic of test <br>
      * <B>Create on:</B> 2020-07-14 02:06 <br>
