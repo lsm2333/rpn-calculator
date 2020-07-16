@@ -2,10 +2,12 @@ package model.calculator;
 
 import enums.RpnOperator;
 import exception.CalculatorException;
+import model.mementos.Originator;
 import model.others.ExtendStack;
 import utils.MathUtil;
 import utils.RpnOperatorUtil;
 
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -15,7 +17,7 @@ import java.util.Queue;
  *
  * @author shengming.lin
  */
-public class RpnCalculator implements Calculator {
+public class RpnCalculator extends Originator implements Calculator {
 
     /**
      * reg expression of blank
@@ -23,19 +25,9 @@ public class RpnCalculator implements Calculator {
     public static final String BLANK = "\\s";
 
     /**
-     * stack to hold the output number
-     */
-    private ExtendStack<Double> resultStack = new ExtendStack<>();
-
-    /**
      * queue to hold the input token, one token is polled each time
      */
     private Queue<String> inputQueue = new LinkedList<>();
-
-    /**
-     * a stack for undo purpose
-     */
-    private ExtendStack<String> undoStack = new ExtendStack<>();
 
     /**
      * Initializes a rpn calculator with self introduce
@@ -45,7 +37,7 @@ public class RpnCalculator implements Calculator {
     }
 
     @Override
-    public ExtendStack<Double> calculate(String input) throws CalculatorException {
+    public ExtendStack<BigDecimal> calculate(String input) throws CalculatorException {
         if (input == null) {
             throw new CalculatorException("Input cannot be null.");
         }
@@ -54,13 +46,13 @@ public class RpnCalculator implements Calculator {
         for (String token : inputSplit) {
             inputQueue.add(token);
         }
-        recursiveCalculate(inputQueue, resultStack, 0);
-        return resultStack;
+        recursiveCalculate(inputQueue, 0);
+        return getState();
     }
 
     @Override
-    public ExtendStack<Double> getResultStack() {
-        return resultStack;
+    public ExtendStack<BigDecimal> getResultStack() {
+        return getState();
     }
 
     /**
@@ -69,28 +61,30 @@ public class RpnCalculator implements Calculator {
      * <p>
      * add number to result stack directly, and pop one/two number(s) when a token is operator
      *
-     * @param input  queue of token
-     * @param result result stack of calculation result
-     * @param index  the index of current token, used to find out exception location
+     * @param input queue of token
+     * @param index the index of current token, used to find out exception location
      * @return result stack
      * @author shengming.lin
      */
-    private ExtendStack<Double> recursiveCalculate(Queue<String> input, ExtendStack<Double> result, int index) throws CalculatorException {
+    private ExtendStack<BigDecimal> recursiveCalculate(Queue<String> input, int index) throws CalculatorException {
+        ExtendStack<BigDecimal> state = (ExtendStack<BigDecimal>) getState().clone();
         if (input == null || input.isEmpty()) {
-            return result;
+            return state;
         }
         String firstToken = input.poll();
-        Double tryParseDouble = MathUtil.tryParseDouble(firstToken);
+        BigDecimal tryParseBigDecimal = MathUtil.tryParseBigDecimal(firstToken);
         // 1. if firstToken is number, just add to result stack
-        if (tryParseDouble != null) {
-            result.add(tryParseDouble);
-            return recursiveCalculate(input, result, ++index);
+        if (tryParseBigDecimal != null) {
+            state.add(tryParseBigDecimal);
+            this.setState(state);
+            RpnOperatorUtil.record(this.save());
+            return recursiveCalculate(input, ++index);
         }
         // 2. the token is operator, try to execute the operator
         RpnOperator operator = RpnOperator.getEnum(firstToken);
         // 3. calculate according to the required number of different operator
-        RpnOperatorUtil.calculateByOperandsNumber(result, undoStack, operator, index);
-        return recursiveCalculate(input, result, ++index);
+        RpnOperatorUtil.calculateByOperandsNumber(this, operator, index);
+        return recursiveCalculate(input, ++index);
     }
 
     /**
@@ -102,8 +96,7 @@ public class RpnCalculator implements Calculator {
      * @author shengming.lin
      */
     public void clearStack() {
-        this.resultStack.clear();
-        undoStack.clear();
+        this.getState().clear();
         this.inputQueue.clear();
     }
 

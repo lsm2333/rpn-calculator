@@ -4,6 +4,7 @@ import model.calculator.Calculator;
 import model.calculator.RpnCalculator;
 import model.others.ExtendStack;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 /**
@@ -34,7 +35,7 @@ public class Main {
             }
             try {
                 // 2.3 call calculate method to get result stack
-                ExtendStack<Double> stack = calculator.calculate(inputString);
+                ExtendStack<BigDecimal> stack = calculator.calculate(inputString);
                 stack.printStack();
             } catch (CalculatorException e) {
                 // 2.4 exception handler

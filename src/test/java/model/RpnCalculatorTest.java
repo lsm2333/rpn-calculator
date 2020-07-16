@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
@@ -99,9 +101,9 @@ public class RpnCalculatorTest {
             System.out.println(input);
             rpnCalculator.calculate(input);
         } catch (CalculatorException e) {
-            ExtendStack<Double> result = rpnCalculator.getResultStack();
-            ExtendStack<Double> expected = new ExtendStack<>();
-            expected.add(11D);
+            ExtendStack<BigDecimal> result = rpnCalculator.getResultStack();
+            ExtendStack<BigDecimal> expected = new ExtendStack<>();
+            expected.add(BigDecimal.valueOf(11D).setScale(15, BigDecimal.ROUND_HALF_UP));
             assertEquals("expectation not matched", expected, result);
             assertEquals("exception message is not matched", "operator * (position: 8): insucient parameters", e.getMessage());
             System.out.println(e.getMessage());
@@ -171,13 +173,17 @@ public class RpnCalculatorTest {
     private void testCommonLogic(String caseName, String[] inputArray, ExtendStack<Double>... expectedArray) {
         System.out.println("----------");
         System.out.println("current test case is: " + caseName);
-        ExtendStack<Double> result;
+        ExtendStack<BigDecimal> result;
         try {
             for (int i = 0; i < inputArray.length; i++) {
                 System.out.println(inputArray[i]);
                 result = rpnCalculator.calculate(inputArray[i]);
                 rpnCalculator.getResultStack().printStack();
-                ExtendStack<Double> expected = expectedArray[i];
+                ExtendStack<Double> expectedDouble = expectedArray[i];
+                ExtendStack<BigDecimal> expected = new ExtendStack<>();
+                for (Double aDouble : expectedDouble) {
+                    expected.add(BigDecimal.valueOf(aDouble).setScale(15, BigDecimal.ROUND_HALF_UP));
+                }
                 assertEquals("expectation not matched", expected, result);
             }
         } catch (CalculatorException e) {

@@ -25,7 +25,7 @@ public class CareTaker {
      */
     public void add(Memento state) {
         // remove the memento after current index
-        for (int i = currentIndex + 1; i < mementoList.size(); i++) {
+        for (int i = mementoList.size() - 1; i > currentIndex; i--) {
             this.mementoList.remove(i);
         }
         this.mementoList.add(state);
@@ -63,5 +63,16 @@ public class CareTaker {
         this.currentIndex = ++this.currentIndex;
         Memento result = this.mementoList.get(this.currentIndex);
         return result;
+    }
+
+    /**
+     * <B>Description:</B> clear memento list <br>
+     * <B>Create on:</B> 2020-07-16 16:20 <br>
+     *
+     * @return
+     * @author shengming.lin
+     */
+    public void clear() {
+        this.mementoList.clear();
     }
 }
