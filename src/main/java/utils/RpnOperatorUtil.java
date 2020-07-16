@@ -120,6 +120,14 @@ public class RpnOperatorUtil {
         rpnCalculator.restore(careTaker.undo());
     }
 
+    /**
+     * <B>Description:</B> record memento into memento list <br>
+     * <B>Create on:</B> 2020-07-16 21:43 <br>
+     *
+     * @param memento
+     * @return
+     * @author shengming.lin
+     */
     public static void record(Memento memento) {
         careTaker.add(memento);
     }
