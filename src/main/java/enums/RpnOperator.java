@@ -4,6 +4,7 @@ import exception.CalculatorException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,114 +21,120 @@ public enum RpnOperator {
      */
     THREE_OPERANDS("to", 3, "3位操作符") {
         @Override
-        public Double calculate(Double first, Double... more) {
-            return more[1] + more[0] + first;
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) {
+            return more[1].add(more[0]).add(first);
         }
     },
 
     ADDITION("+", 2, "加法") {
         @Override
-        public Double calculate(Double first, Double... more) {
-            return more[0] + first;
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) {
+            return more[0].add(first);
         }
     },
 
     SUBTRACTION("-", 2, "减法") {
         @Override
-        public Double calculate(Double first, Double... more) {
-            return more[0] - first;
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) {
+            return more[0].subtract(first);
         }
     },
 
     MULTIPLICATION("*", 2, "乘法") {
         @Override
-        public Double calculate(Double first, Double... more) {
-            return more[0] * first;
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) {
+            return more[0].multiply(first);
         }
     },
 
     DIVISION("/", 2, "除法") {
         @Override
-        public Double calculate(Double first, Double... more) throws CalculatorException {
-            if (first == 0)
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) throws CalculatorException {
+            if (first.compareTo(BigDecimal.ZERO) == 0)
                 throw new CalculatorException("Cannot divide by 0.");
-            return more[0] / first;
+            return more[0].divide(first);
         }
     },
 
     SQUAREROOT("sqrt", 1, "开方") {
         @Override
-        public Double calculate(Double first, Double... more) {
-            return sqrt(first);
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) {
+            double doubleValue = first.doubleValue();
+            return BigDecimal.valueOf(sqrt(doubleValue));
         }
     },
 
     POWER("pow", 1, "平方") {
         @Override
-        public Double calculate(Double first, Double... more) {
-            return pow(first, 2.0);
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) {
+            double doubleValue = first.doubleValue();
+            return BigDecimal.valueOf(pow(doubleValue, 2.0));
         }
     },
 
     FACTORIAL("n!", 1, "阶乘") {
         @Override
-        public Double calculate(Double first, Double... more) {
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) {
             return factorial(first);
         }
     },
 
     REVERSE_FACTORIAL("rv-n!", 1, "逆阶乘") {
         @Override
-        public Double calculate(Double first, Double... more) {
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) {
             return reFactorial(first);
         }
     },
 
     COS("cos", 1, "余弦") {
         @Override
-        public Double calculate(Double first, Double... more) {
-            return cos(first);
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) {
+            double doubleValue = first.doubleValue();
+            return BigDecimal.valueOf(cos(doubleValue));
         }
     },
 
     ACOS("acos", 1, "反余弦") {
         @Override
-        public Double calculate(Double first, Double... more) {
-            return acos(first);
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) {
+            double doubleValue = first.doubleValue();
+            return BigDecimal.valueOf(acos(doubleValue));
         }
     },
 
     TAN("tan", 1, "正切") {
         @Override
-        public Double calculate(Double first, Double... more) {
-            return tan(first);
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) {
+            double doubleValue = first.doubleValue();
+            return BigDecimal.valueOf(tan(doubleValue));
         }
     },
 
     ATAN("atan", 1, "反正切") {
         @Override
-        public Double calculate(Double first, Double... more) {
-            return atan(first);
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) {
+            double doubleValue = first.doubleValue();
+            return BigDecimal.valueOf(atan(doubleValue));
         }
     },
 
     UNDO("undo", 0, "撤回") {
         @Override
-        public Double calculate(Double first, Double... more) throws CalculatorException {
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) throws CalculatorException {
             throw new CalculatorException("Invalid operation");
         }
     },
 
     CLEAR("clear", 0, "清除") {
         @Override
-        public Double calculate(Double first, Double... more) throws CalculatorException {
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) throws CalculatorException {
             throw new CalculatorException("Invalid operation");
         }
     },
 
     EXIT("exit", 0, "退出") {
         @Override
-        public Double calculate(Double first, Double... more) throws CalculatorException {
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) throws CalculatorException {
             throw new CalculatorException("Invalid operation");
         }
     };
@@ -136,7 +143,7 @@ public enum RpnOperator {
     private int operandsNumber;
     private String chinese;
 
-    public abstract Double calculate(Double first, Double... more) throws CalculatorException;
+    public abstract BigDecimal calculate(BigDecimal first, BigDecimal... more) throws CalculatorException;
 
     /**
      * using map for a constant lookup cost
