@@ -1,6 +1,7 @@
 package model.mementos;
 
 import exception.CalculatorException;
+import model.others.ExtendStack;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,8 +44,18 @@ public class CareTaker {
      * @return
      * @author shengming.lin
      */
-    public Memento undo() {
+    public Memento undo() throws CalculatorException {
         this.currentIndex = --this.currentIndex;
+        // if there is no step to roll back, clear the memento list
+        if (this.currentIndex == -1) {
+            this.mementoList.clear();
+            return new CalculatorMemento(new ExtendStack());
+        }
+        // if current index is minus, throw exception
+        if (this.currentIndex < -1) {
+            this.currentIndex = 0;
+            throw new CalculatorException("Invalid undo operation, unable to roll back");
+        }
         Memento result = this.mementoList.get(this.currentIndex);
         return result;
     }
