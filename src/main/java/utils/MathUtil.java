@@ -20,11 +20,11 @@ public class MathUtil {
      * @return
      * @author shengming.lin
      */
-    public static Double factorial(Double number) {
-        if (number <= 1D)
-            return 1D;
+    public static BigDecimal factorial(BigDecimal number) {
+        if (number.compareTo(BigDecimal.ONE) <= 0)
+            return BigDecimal.ONE;
         else
-            return number * factorial(number - 1);
+            return number.multiply(factorial(number.subtract(BigDecimal.ONE)));
     }
 
     /**
@@ -36,11 +36,11 @@ public class MathUtil {
      * @return
      * @author shengming.lin
      */
-    public static Double reFactorial(Double fResult) {
-        Double result = fResult;
-        for (int i = 2; fResult > 1; i++) {
-            fResult /= i;
-            result = Double.valueOf(i);
+    public static BigDecimal reFactorial(BigDecimal fResult) {
+        BigDecimal result = fResult;
+        for (int i = 2; fResult.compareTo(BigDecimal.ONE) > 0; i++) {
+            fResult = fResult.divide(BigDecimal.valueOf(i));
+            result = BigDecimal.valueOf(i);
         }
         return result;
     }
@@ -53,10 +53,10 @@ public class MathUtil {
      * @return
      * @author shengming.lin
      */
-    public static Double tryParseDouble(String str) {
+    public static BigDecimal tryParseBigDecimal(String str) {
         try {
             BigDecimal b = new BigDecimal(str);
-            return b.setScale(15, BigDecimal.ROUND_HALF_DOWN).doubleValue();
+            return b.setScale(15, BigDecimal.ROUND_HALF_DOWN);
         } catch (NumberFormatException nfe) {
             return null;
         }
