@@ -3,6 +3,8 @@ package model.calculator;
 import exception.CalculatorException;
 import model.others.ExtendStack;
 
+import java.math.BigDecimal;
+
 /**
  * <B>Description:</B> calculator interface <br>
  * <B>Create on:</B> 2020-05-16 15:33 <br>
@@ -20,7 +22,7 @@ public interface Calculator {
      * @return stack containing results
      * @author shengming.lin
      */
-    ExtendStack<Double> calculate(String input) throws CalculatorException;
+    ExtendStack<BigDecimal> calculate(String input) throws CalculatorException;
 
     /**
      * <B>Description:</B> introduce itselft via console <br>
@@ -42,7 +44,7 @@ public interface Calculator {
      * @return
      * @author shengming.lin
      */
-    ExtendStack<Double> getResultStack();
+    ExtendStack<BigDecimal> getResultStack();
 
     /**
      * <B>Description:</B> a default implementation to handle exception <br>
@@ -54,7 +56,7 @@ public interface Calculator {
      */
     default void handleException(CalculatorException e) {
         System.out.println(e.getMessage());
-        ExtendStack<Double> resultStack = getResultStack();
+        ExtendStack<BigDecimal> resultStack = getResultStack();
         if (resultStack != null) {
             resultStack.printStack();
         }
