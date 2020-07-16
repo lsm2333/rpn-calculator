@@ -138,6 +138,21 @@ public class RpnCalculatorTest {
         );
     }
 
+    @Test(expected = CalculatorException.class)
+    public void testSqrtMinus() throws CalculatorException {
+        try {
+            System.out.println("----------");
+            System.out.println("current test case is: SqrtMinus");
+            String input = "-1 sqrt";
+            System.out.println(input);
+            rpnCalculator.calculate(input);
+        } catch (CalculatorException e) {
+            assertEquals("exception message is not matched", "Minus number is not supported.", e.getMessage());
+            System.out.println(e.getMessage());
+            throw e;
+        }
+    }
+
     @Test
     public void testSelfIntro() {
         System.out.println("----------");

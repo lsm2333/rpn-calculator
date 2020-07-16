@@ -58,7 +58,10 @@ public enum RpnOperator {
 
     SQUAREROOT("sqrt", 1, "开方") {
         @Override
-        public BigDecimal calculate(BigDecimal first, BigDecimal... more) {
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) throws CalculatorException {
+            if (first.compareTo(BigDecimal.ZERO) < 0) {
+                throw new CalculatorException("Minus number is not supported.");
+            }
             double doubleValue = first.doubleValue();
             return BigDecimal.valueOf(sqrt(doubleValue));
         }
