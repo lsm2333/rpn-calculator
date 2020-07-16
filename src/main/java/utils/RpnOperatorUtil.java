@@ -58,12 +58,28 @@ public class RpnOperatorUtil {
                 if (RpnOperator.UNDO.equals(operator)) {
                     undo(rpnCalculator);
                 }
+                if (RpnOperator.REDO.equals(operator)) {
+                    redo(rpnCalculator);
+                }
                 break;
             }
             default: {
                 popAndCalculateByOperandsNumber(rpnCalculator, operator, operandsNumber);
             }
         }
+    }
+
+    /**
+     * <B>Description:</B> redo the undo command <br>
+     * <B>Create on:</B> 2020-05-17 16:12 <br>
+     *
+     * @param rpnCalculator calculator instance, which will restore state by calling redo
+     * @return
+     * @throws CalculatorException when a wrong operandsNumber is defined
+     * @author shengming.lin
+     */
+    private static void redo(RpnCalculator rpnCalculator) throws CalculatorException {
+        rpnCalculator.restore(careTaker.redo());
     }
 
     /**
@@ -109,7 +125,6 @@ public class RpnOperatorUtil {
     /**
      * <B>Description:</B> undo the last command <br>
      * <B>Create on:</B> 2020-05-17 16:12 <br>
-     * every undo will pop the last token from undo-stack, and try to roll back numbers from undo-stack
      *
      * @param rpnCalculator calculator instance, which will restore state by calling undo
      * @return

@@ -175,6 +175,15 @@ public class RpnCalculatorTest {
         );
     }
 
+    @Test
+    public void testRedo() {
+        testCommonLogic("testRedo",
+                new String[]{"1 2 3 undo", "redo"},
+                new ExtendStack<>(1D, 2D),
+                new ExtendStack<>(1D, 2D, 3D)
+        );
+    }
+
     /**
      * <B>Description:</B> common logic of test <br>
      * <B>Create on:</B> 2020-07-14 02:06 <br>

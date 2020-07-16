@@ -128,6 +128,13 @@ public enum RpnOperator {
         }
     },
 
+    REDO("redo", 0, "重做") {
+        @Override
+        public BigDecimal calculate(BigDecimal first, BigDecimal... more) throws CalculatorException {
+            throw new CalculatorException("Invalid operation");
+        }
+    },
+
     CLEAR("clear", 0, "清除") {
         @Override
         public BigDecimal calculate(BigDecimal first, BigDecimal... more) throws CalculatorException {
