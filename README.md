@@ -1,3 +1,6 @@
+# Release
+- [v0.1 - redo/multiple operands support & code improve](https://github.com/lsm2333/rpn-calculator/releases/tag/0.1)
+
 # What's this
 This project implements a basic calculator including RPN-calculator using java. And users can use it via command line.
 
