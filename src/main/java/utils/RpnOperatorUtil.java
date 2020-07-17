@@ -9,6 +9,10 @@ import model.others.ExtendStack;
 
 import java.math.BigDecimal;
 
+import static java.lang.Math.*;
+import static utils.MathUtil.factorial;
+import static utils.MathUtil.reFactorial;
+
 /**
  * <B>Description:</B> util of rpn operator <br>
  * <B>Create on:</B> 2020-07-13 22:36 <br>
@@ -89,7 +93,7 @@ public class RpnOperatorUtil {
      * @param operator       operator of the calculation
      * @param operandsNumber the required operands number of operator
      * @return
-     * @throws CalculatorException see more detail in {@link RpnOperator#calculate(java.math.BigDecimal, java.math.BigDecimal...)}
+     * @throws CalculatorException see more detail in {@link RpnOperatorUtil#calculate(enums.RpnOperator, java.math.BigDecimal, java.math.BigDecimal...)}
      * @author shengming.lin
      */
     private static void popAndCalculateByOperandsNumber(RpnCalculator rpnCalculator, RpnOperator operator, int operandsNumber) throws CalculatorException {
@@ -101,7 +105,8 @@ public class RpnOperatorUtil {
             more[i] = result.pop();
         }
         // 2. call calculate method to execute popped operands
-        BigDecimal calculateResult = operator.calculate(first, more);
+        BigDecimal calculateResult = calculate(operator, first, more);
+//        BigDecimal calculateResult = operator.calculate(first, more);
         // 3. add result into result stack
         result.add(calculateResult.setScale(15, BigDecimal.ROUND_HALF_UP));
         // 4. record state of calculator
@@ -145,5 +150,70 @@ public class RpnOperatorUtil {
      */
     public static void record(Memento memento) {
         careTaker.add(memento);
+    }
+
+    /**
+     * <B>Description:</B> calculate according to different operators <br>
+     * <B>Create on:</B> 2020-07-17 10:36 <br>
+     *
+     * @param operator
+     * @param first    first operand
+     * @return
+     * @author shengming.lin
+     */
+    public static BigDecimal calculate(RpnOperator operator, BigDecimal first, BigDecimal... more) throws CalculatorException {
+        switch (operator) {
+            case THREE_OPERANDS:
+                return more[1].add(more[0]).add(first);
+            case ADDITION:
+                return more[0].add(first);
+            case SUBTRACTION:
+                return more[0].subtract(first);
+            case MULTIPLICATION:
+                return more[0].multiply(first);
+            case DIVISION: {
+                if (first.compareTo(BigDecimal.ZERO) == 0)
+                    throw new CalculatorException("Cannot divide by 0.");
+                return more[0].divide(first);
+            }
+            case SQUAREROOT: {
+                if (first.compareTo(BigDecimal.ZERO) < 0) {
+                    throw new CalculatorException("Minus number is not supported.");
+                }
+                double doubleValue = first.doubleValue();
+                return BigDecimal.valueOf(sqrt(doubleValue));
+            }
+            case POWER: {
+                double doubleValue = first.doubleValue();
+                return BigDecimal.valueOf(pow(doubleValue, 2.0));
+            }
+            case FACTORIAL:
+                return factorial(first);
+            case REVERSE_FACTORIAL:
+                return reFactorial(first);
+            case COS: {
+                double doubleValue = first.doubleValue();
+                return BigDecimal.valueOf(cos(doubleValue));
+            }
+            case ACOS: {
+                double doubleValue = first.doubleValue();
+                return BigDecimal.valueOf(acos(doubleValue));
+            }
+            case TAN: {
+                double doubleValue = first.doubleValue();
+                return BigDecimal.valueOf(tan(doubleValue));
+            }
+            case ATAN: {
+                double doubleValue = first.doubleValue();
+                return BigDecimal.valueOf(atan(doubleValue));
+            }
+            case UNDO:
+            case REDO:
+            case CLEAR:
+            case EXIT:
+                throw new CalculatorException("Invalid operation");
+            default:
+                throw new CalculatorException("Not supported operator: " + operator);
+        }
     }
 }
