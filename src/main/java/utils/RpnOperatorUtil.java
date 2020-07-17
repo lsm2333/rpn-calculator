@@ -98,7 +98,7 @@ public class RpnOperatorUtil {
      */
     private static void popAndCalculateByOperandsNumber(RpnCalculator rpnCalculator, RpnOperator operator, int operandsNumber) throws CalculatorException {
         // 1. pop from result stack
-        ExtendStack<BigDecimal> result = (ExtendStack<BigDecimal>) rpnCalculator.getState().clone();
+        ExtendStack<BigDecimal> result = rpnCalculator.getState();
         BigDecimal[] more = new BigDecimal[operandsNumber];
         BigDecimal first = result.pop();
         for (int i = 0; i < operandsNumber - 1; i++) {
@@ -123,7 +123,7 @@ public class RpnOperatorUtil {
      * @author shengming.lin
      */
     private static void clear(RpnCalculator rpnCalculator) {
-        rpnCalculator.getState().clear();
+        rpnCalculator.clear();
         careTaker.clear();
     }
 

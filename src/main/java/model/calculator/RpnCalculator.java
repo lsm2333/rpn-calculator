@@ -67,7 +67,7 @@ public class RpnCalculator extends Originator implements Calculator {
      * @author shengming.lin
      */
     private ExtendStack<BigDecimal> recursiveCalculate(Queue<String> input, int index) throws CalculatorException {
-        ExtendStack<BigDecimal> state = (ExtendStack<BigDecimal>) getState().clone();
+        ExtendStack<BigDecimal> state = getState();
         if (input == null || input.isEmpty()) {
             return state;
         }
@@ -96,7 +96,7 @@ public class RpnCalculator extends Originator implements Calculator {
      * @author shengming.lin
      */
     public void clearStack() {
-        this.getState().clear();
+        this.clear();
         this.inputQueue.clear();
     }
 

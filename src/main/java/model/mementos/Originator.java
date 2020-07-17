@@ -21,7 +21,7 @@ public class Originator {
     }
 
     public ExtendStack<BigDecimal> getState() {
-        return state;
+        return (ExtendStack<BigDecimal>) state.clone();
     }
 
     public Memento save() {
@@ -30,5 +30,9 @@ public class Originator {
 
     public void restore(Memento Memento) {
         state = Memento.getState();
+    }
+
+    public void clear() {
+        this.state.clear();
     }
 }
