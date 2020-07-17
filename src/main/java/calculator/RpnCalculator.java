@@ -22,7 +22,7 @@ public class RpnCalculator extends Originator implements Calculator {
     /**
      * reg expression of blank
      */
-    public static final String BLANK = "\\s";
+    private static final String BLANK = "\\s";
 
     /**
      * queue to hold the input token, one token is polled each time
