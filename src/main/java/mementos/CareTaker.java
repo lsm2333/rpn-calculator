@@ -1,7 +1,7 @@
-package model.mementos;
+package mementos;
 
 import exception.CalculatorException;
-import model.others.ExtendStack;
+import stack.ExtendStack;
 
 import java.util.LinkedList;
 import java.util.List;

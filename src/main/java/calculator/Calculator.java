@@ -1,7 +1,7 @@
-package model.calculator;
+package calculator;
 
 import exception.CalculatorException;
-import model.others.ExtendStack;
+import stack.ExtendStack;
 
 import java.math.BigDecimal;
 

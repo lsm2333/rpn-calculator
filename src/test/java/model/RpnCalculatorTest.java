@@ -1,8 +1,8 @@
 package model;
 
 import exception.CalculatorException;
-import model.calculator.RpnCalculator;
-import model.others.ExtendStack;
+import calculator.RpnCalculator;
+import stack.ExtendStack;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -1,11 +1,11 @@
 package utils;
 
+import calculator.RpnCalculator;
 import enums.RpnOperator;
 import exception.CalculatorException;
-import model.calculator.RpnCalculator;
-import model.mementos.CareTaker;
-import model.mementos.Memento;
-import model.others.ExtendStack;
+import mementos.CareTaker;
+import mementos.Memento;
+import stack.ExtendStack;
 
 import java.math.BigDecimal;
 

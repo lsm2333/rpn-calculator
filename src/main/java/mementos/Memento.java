@@ -1,6 +1,6 @@
-package model.mementos;
+package mementos;
 
-import model.others.ExtendStack;
+import stack.ExtendStack;
 
 /**
  * <B>Description:</B> Memento Interface <br>

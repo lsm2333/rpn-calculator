@@ -1,8 +1,8 @@
 import enums.RpnOperator;
 import exception.CalculatorException;
-import model.calculator.Calculator;
-import model.calculator.RpnCalculator;
-import model.others.ExtendStack;
+import calculator.Calculator;
+import calculator.RpnCalculator;
+import stack.ExtendStack;
 
 import java.math.BigDecimal;
 import java.util.Scanner;

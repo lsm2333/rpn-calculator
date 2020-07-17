@@ -1,9 +1,9 @@
-package model.calculator;
+package calculator;
 
 import enums.RpnOperator;
 import exception.CalculatorException;
-import model.mementos.Originator;
-import model.others.ExtendStack;
+import mementos.Originator;
+import stack.ExtendStack;
 import utils.MathUtil;
 import utils.RpnOperatorUtil;
 
