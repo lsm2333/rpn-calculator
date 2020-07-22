@@ -52,6 +52,12 @@ public class RpnOperatorUtil {
      * @author shengming.lin
      */
     public static void calculateByOperandsNumber(RpnCalculator rpnCalculator, RpnOperator operator, int index) throws CalculatorException {
+        if (operator == null) {
+            throw new CalculatorException("operator can't be null");
+        }
+        if (rpnCalculator == null) {
+            throw new CalculatorException("rpnCalculator can't be null");
+        }
         int operandsNumber = operator.getOperandsNumber();
         RpnOperatorUtil.checkOperandsNumber(rpnCalculator.getState().size(), operandsNumber, index, operator.getSymbol());
         switch (operandsNumber) {
@@ -162,6 +168,12 @@ public class RpnOperatorUtil {
      * @author shengming.lin
      */
     public static BigDecimal calculate(RpnOperator operator, BigDecimal first, BigDecimal... more) throws CalculatorException {
+        if (operator == null) {
+            throw new CalculatorException("operator can't be null");
+        }
+        if (first == null) {
+            throw new CalculatorException("first number can't be null");
+        }
         switch (operator) {
             case THREE_OPERANDS:
                 return more[1].add(more[0]).add(first);
